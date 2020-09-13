@@ -1,0 +1,2285 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>sw41</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>
+        hljs.configure({
+            tabReplace: '    ',
+        });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <style>body {
+    position: relative;
+}
+
+h1 {
+    margin-top: 5px;
+}
+
+h1, h2, h3, h4 {
+    color: #2b2b2b;
+}
+
+h2:after {
+    content: ' ';
+}
+
+h5 {
+    font-weight: bold;
+}
+
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+    display: none;
+    position: absolute;
+    margin-left: 8px;
+}
+
+h1:hover a, h2:hover a, h3:hover a, h4:hover a, h5:hover a, h6:hover a {
+    color: #a5a5a5;
+    display: initial;
+}
+
+.nav.nav-tabs > li > a {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.tab-content {
+    padding-top: 8px;
+}
+
+.table {
+    margin-bottom: 8px;
+}
+
+pre {
+    border-radius: 0px;
+    border: none;
+}
+
+pre code {
+    margin: -9.5px;
+}
+
+.request {
+    margin-top: 12px;
+    margin-bottom: 24px;
+}
+
+.response-text-sample {
+    padding: 0px !important;
+}
+
+.response-text-sample pre {
+    margin-bottom: 0px;
+}
+
+
+#sidebar-wrapper {
+    z-index: 1000;
+    position: fixed;
+    left: 250px;
+    width: 250px;
+    height: 100%;
+    margin-left: -250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #2b2b2b;
+    padding-top: 20px;
+}
+
+#sidebar-wrapper ul {
+    width: 250px;
+}
+
+#sidebar-wrapper ul li {
+    margin-right: 10px;
+}
+
+#sidebar-wrapper ul li a:hover {
+    background: inherit;
+    text-decoration: none;
+}
+
+#sidebar-wrapper ul li a {
+    display: block;
+    color: #ECF0F1;
+    padding: 6px 15px;
+}
+
+#sidebar-wrapper ul li ul {
+    padding-left: 25px;
+}
+
+#sidebar-wrapper ul li ul li a {
+    padding: 1px 0px;
+}
+
+#sidebar-wrapper ul li a:hover,
+#sidebar-wrapper ul li a:focus {
+    color: #e0c46c;
+    border-right: solid 1px #e0c46c;
+}
+
+#sidebar-wrapper ul li.active > a {
+    color: #e0c46c;
+    border-right: solid 3px #e0c46c;
+}
+
+#sidebar-wrapper ul li:not(.active) ul {
+    display: none;
+}
+
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+    padding: 15px 15px 15px 250px;
+}
+</style>
+</head>
+<body data-spy="scroll" data-target=".scrollspy">
+<div id="sidebar-wrapper">
+    <div class="scrollspy">
+    <ul id="main-menu" data-spy="affix" class="nav">
+        <li>
+            <a href="#doc-general-notes">General notes</a>
+        </li>
+        
+        <li>
+            <a href="#doc-api-detail">API detail</a>
+        </li>
+        
+        <li>
+            <a href="#request-get-active-source">Get Active Source</a>
+        </li>
+        
+        <li>
+            <a href="#request-get-auto-switch">Get Auto Switch</a>
+        </li>
+        
+        <li>
+            <a href="#request-get-custom-edid-info">Get Custom Edid Info</a>
+        </li>
+        
+        <li>
+            <a href="#request-get-active-edid-info">Get Active Edid Info</a>
+        </li>
+        
+        <li>
+            <a href="#request-get-audio-settings">Get Audio Settings</a>
+        </li>
+        
+        <li>
+            <a href="#request-get-sink-name">Get Sink Name</a>
+        </li>
+        
+        <li>
+            <a href="#request-get-admin-info">Get Admin Info</a>
+        </li>
+        
+        <li>
+            <a href="#request-get-video-info">Get Video Info</a>
+        </li>
+        
+        <li>
+            <a href="#request-restart">Restart</a>
+        </li>
+        
+        <li>
+            <a href="#request-factory-reset">Factory Reset</a>
+        </li>
+        
+        <li>
+            <a href="#request-request-update">Request Update</a>
+        </li>
+        
+        <li>
+            <a href="#request-get-update-info">Get Update Info</a>
+        </li>
+        
+        <li>
+            <a href="#request-set-active-source">Set Active Source</a>
+        </li>
+        
+        <li>
+            <a href="#request-set-auto-switch">Set Auto Switch</a>
+        </li>
+        
+        <li>
+            <a href="#request-set-audio-settings">Set Audio Settings</a>
+        </li>
+        
+        <li>
+            <a href="#request-upload-edid">Upload Edid</a>
+        </li>
+        
+        <li>
+            <a href="#request-set-edid">Set Edid</a>
+        </li>
+        
+        <li>
+            <a href="#request-set-hostname">Set Hostname</a>
+        </li>
+        
+        <li>
+            <a href="#request-set-static-ip">Set Static IP</a>
+        </li>
+        
+        <li>
+            <a href="#request-set-dhcp">Set DHCP</a>
+        </li>
+        
+        
+    </ul>
+</div>
+
+</div>
+<div id="page-content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>sw41</h1>
+
+                <h2 id="doc-general-notes">
+                    General notes
+                    <a href="#doc-general-notes"><i class="glyphicon glyphicon-link"></i></a>
+                </h2>
+
+                
+
+                
+
+                <h2 id="doc-api-detail">
+                    API detail
+                    <a href="#doc-api-detail"><i class="glyphicon glyphicon-link"></i></a>
+                </h2>
+
+                
+                
+                <div class="request">
+
+                    <h3 id="request-get-active-source">
+                        Get Active Source
+                        <a href="#request-get-active-source"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div><h3>Description</h3>
+
+<p>Retrieves the active source being currently routed to the sink.</p>
+
+<h3>Command Usage</h3>
+
+<p><strong>Request Format Example:</strong>
+    &ldquo;none&rdquo;</p>
+
+<p><strong>Arguments:</strong>
+    &ldquo;none&rdquo;</p>
+</div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-get-active-source-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-get-active-source-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-get-active-source-example-curl">
+                                <pre><code class="hljs curl">curl -X GET "/GetActiveSource"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-get-active-source-example-http">
+                                <pre><code class="hljs http">GET /GetActiveSource HTTP/1.1
+Host: </code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-get-active-source-responses-ee9b4190-74c0-406d-b825-d9b081cf1d80" data-toggle="tab">
+                                    
+                                    Response
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-get-active-source-responses-ee9b4190-74c0-406d-b825-d9b081cf1d80">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "source": 0
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-get-auto-switch">
+                        Get Auto Switch
+                        <a href="#request-get-auto-switch"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div><h3>Description</h3>
+
+<p>Retrieves the autoswitch setting. Autoswitch will automatically switch the input when an input becomes active.</p>
+
+<h3>Command Usage</h3>
+
+<p><strong>Request Format Example:</strong>
+    &ldquo;none&rdquo;</p>
+
+<p><strong>Arguments:</strong>
+    &ldquo;none&rdquo;</p>
+</div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-get-auto-switch-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-get-auto-switch-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-get-auto-switch-example-curl">
+                                <pre><code class="hljs curl">curl -X GET "/GetAutoSwitch"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-get-auto-switch-example-http">
+                                <pre><code class="hljs http">GET /GetAutoSwitch HTTP/1.1
+Host: </code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-get-auto-switch-responses-d184d88d-058f-47c3-90a8-e6d487063ee9" data-toggle="tab">
+                                    
+                                    Response
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-get-auto-switch-responses-d184d88d-058f-47c3-90a8-e6d487063ee9">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "autoswitch": false
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-get-custom-edid-info">
+                        Get Custom Edid Info
+                        <a href="#request-get-custom-edid-info"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div><h3>Description</h3>
+
+<p>Retrieves the monitor name contained in any custom EDID uploaded to the unit if any.</p>
+
+<h3>Command Usage</h3>
+
+<p><strong>Request Format Example:</strong>
+    &ldquo;none&rdquo;</p>
+
+<p><strong>Arguments:</strong>
+    &ldquo;none&rdquo;</p>
+</div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-get-custom-edid-info-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-get-custom-edid-info-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-get-custom-edid-info-example-curl">
+                                <pre><code class="hljs curl">curl -X GET "/GetCustomEdidInfo"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-get-custom-edid-info-example-http">
+                                <pre><code class="hljs http">GET /GetCustomEdidInfo HTTP/1.1
+Host: </code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-get-custom-edid-info-responses-cc916caa-00ff-4e7e-9d7b-2b6359d8935a" data-toggle="tab">
+                                    
+                                    Get Custom Edid Info (Slot 1)
+                                    
+                                </a>
+                            </li>
+                            
+                            <li role="presentation">
+                                <a href="#request-get-custom-edid-info-responses-17083eab-3726-47d2-8fad-a8ec888dcb24" data-toggle="tab">
+                                    
+                                    Get Custom Edid Info (Empty)
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-get-custom-edid-info-responses-cc916caa-00ff-4e7e-9d7b-2b6359d8935a">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "customEdids": [
+        "M50-E1\n      ",
+        null,
+        null,
+        null
+    ]
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                            <div class="tab-pane" id="request-get-custom-edid-info-responses-17083eab-3726-47d2-8fad-a8ec888dcb24">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "customEdids": [
+        null,
+        null,
+        null,
+        null
+    ]
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-get-active-edid-info">
+                        Get Active Edid Info
+                        <a href="#request-get-active-edid-info"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div><h3>Description</h3>
+
+<p>Retrieves the EDID being sent to each source in an array corresponding to each input.</p>
+
+<h3>Command Usage</h3>
+
+<p><strong>Request Format Example:</strong>
+    &ldquo;none&rdquo;</p>
+
+<p><strong>Arguments:</strong>
+    &ldquo;none&rdquo;</p>
+</div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-get-active-edid-info-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-get-active-edid-info-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-get-active-edid-info-example-curl">
+                                <pre><code class="hljs curl">curl -X GET "/GetActiveEdidInfo"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-get-active-edid-info-example-http">
+                                <pre><code class="hljs http">GET /GetActiveEdidInfo HTTP/1.1
+Host: </code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-get-active-edid-info-responses-4913cfd8-130d-43d4-abc5-de7776efc232" data-toggle="tab">
+                                    
+                                    Response
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-get-active-edid-info-responses-4913cfd8-130d-43d4-abc5-de7776efc232">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "activeEdids": [
+        "1080p60 2ch         ",
+        "2160p30 2ch         ",
+        "2160p60 5.1ch HDR   ",
+        "None (Out)"
+    ]
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-get-audio-settings">
+                        Get Audio Settings
+                        <a href="#request-get-audio-settings"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div><h3>Description</h3>
+
+<p>Retrieves all analog audio settings.</p>
+
+<h3>Command Usage</h3>
+
+<p><strong>Request Format Example:</strong>
+    &ldquo;none&rdquo;</p>
+
+<p><strong>Arguments:</strong>
+    &ldquo;none&rdquo;</p>
+</div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-get-audio-settings-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-get-audio-settings-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-get-audio-settings-example-curl">
+                                <pre><code class="hljs curl">curl -X GET "/GetAudioSettings"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-get-audio-settings-example-http">
+                                <pre><code class="hljs http">GET /GetAudioSettings HTTP/1.1
+Host: </code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-get-audio-settings-responses-035378b2-2d9d-4b00-860c-2e4a0039f6d2" data-toggle="tab">
+                                    
+                                    Response
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-get-audio-settings-responses-035378b2-2d9d-4b00-860c-2e4a0039f6d2">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "status": "success",
+    "audioInfo": {
+        "audiosel": "local",
+        "mute": false,
+        "volume": 50,
+        "tune mode": "disabled",
+        "presets": "flat",
+        "band0": 0,
+        "band1": 0,
+        "band2": 0,
+        "band3": 0,
+        "band4": 0,
+        "basstone": 0,
+        "treble": 0,
+        "surround": false,
+        "surrlevel": 1,
+        "basslevel": 31,
+        "bass": false,
+        "bassfreq": 100,
+        "highpass": false
+    }
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-get-sink-name">
+                        Get Sink Name
+                        <a href="#request-get-sink-name"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div><h3>Description</h3>
+
+<p>Retrieves the monitor name contained in the EDID of the sink device.</p>
+
+<h3>Command Usage</h3>
+
+<p><strong>Request Format Example:</strong>
+    &ldquo;none&rdquo;</p>
+
+<p><strong>Arguments:</strong>
+    &ldquo;none&rdquo;</p>
+</div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-get-sink-name-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-get-sink-name-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-get-sink-name-example-curl">
+                                <pre><code class="hljs curl">curl -X GET "/GetSinkName"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-get-sink-name-example-http">
+                                <pre><code class="hljs http">GET /GetSinkName HTTP/1.1
+Host: </code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-get-sink-name-responses-60b9c58c-9b82-4f31-bcc4-08f051c271ac" data-toggle="tab">
+                                    
+                                    Response
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-get-sink-name-responses-60b9c58c-9b82-4f31-bcc4-08f051c271ac">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "sinkname": "LG TV RVU\n   "
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-get-admin-info">
+                        Get Admin Info
+                        <a href="#request-get-admin-info"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div><h3>Description</h3>
+
+<p>Retrieves the administration settings such as network settings and serial number.</p>
+
+<h3>Command Usage</h3>
+
+<p><strong>Request Format Example:</strong>
+    &ldquo;none&rdquo;</p>
+
+<p><strong>Arguments:</strong>
+    &ldquo;none&rdquo;</p>
+</div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-get-admin-info-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-get-admin-info-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-get-admin-info-example-curl">
+                                <pre><code class="hljs curl">curl -X GET "/GetAdminInfo"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-get-admin-info-example-http">
+                                <pre><code class="hljs http">GET /GetAdminInfo HTTP/1.1
+Host: </code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-get-admin-info-responses-1267e8ca-e55b-42a8-a0c1-e51e38c40c8b" data-toggle="tab">
+                                    
+                                    Response
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-get-admin-info-responses-1267e8ca-e55b-42a8-a0c1-e51e38c40c8b">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "status": "success",
+    "systemInfo": {
+        "serial": "SW41-0000",
+        "firmware": "1.0.11",
+        "firmware date": "May 11 2020",
+        "firmware time": "15:53:51",
+        "hardware": "0004",
+        "current ip": "192.168.100.211",
+        "static ip": "192.168.0.10",
+        "netmask": "255.255.255.0",
+        "gateway": "192.168.0.1",
+        "mac": "00:80:E6:00:00:00",
+        "hostname": "SW41-0000",
+        "dhcp": true
+    }
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-get-video-info">
+                        Get Video Info
+                        <a href="#request-get-video-info"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div><h3>Description</h3>
+
+<p>Retrieves the video parameters such as resolution and framerate of the video passing through the unit.</p>
+
+<h3>Command Usage</h3>
+
+<p><strong>Request Format Example:</strong>
+    &ldquo;none&rdquo;</p>
+
+<p><strong>Arguments:</strong>
+    &ldquo;none&rdquo;</p>
+</div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-get-video-info-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-get-video-info-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-get-video-info-example-curl">
+                                <pre><code class="hljs curl">curl -X GET "/GetVideoInfo"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-get-video-info-example-http">
+                                <pre><code class="hljs http">GET /GetVideoInfo HTTP/1.1
+Host: </code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-get-video-info-responses-5fb880a5-d9cd-4e68-a2d1-fd4d768b04b0" data-toggle="tab">
+                                    
+                                    Response
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-get-video-info-responses-5fb880a5-d9cd-4e68-a2d1-fd4d768b04b0">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "status": "success",
+    "videoInfo": {
+        "input link": [
+            true,
+            false,
+            false,
+            false
+        ],
+        "input hdcp status": "success",
+        "output hdcp status": "success",
+        "output link": true,
+        "output active": true,
+        "video stable": true,
+        "signal stable": true,
+        "resolution": "1920x1080",
+        "scan type": "progressive",
+        "color format": "RGB:444",
+        "dynamic range": "VESA (Full Range)",
+        "color bit depth": 8,
+        "pixel clock": "146 Mhz",
+        "framerate": "59.12 Hz;",
+        "audio type": "  LPCM",
+        "audio sample rate": "48 kHz",
+        "audio channels": 2
+    }
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-restart">
+                        Restart
+                        <a href="#request-restart"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div><h3>Description</h3>
+
+<p>Restarts the unit.</p>
+
+<h3>Command Usage</h3>
+
+<p><strong>Request Format Example:</strong>
+    &ldquo;none&rdquo;</p>
+
+<p><strong>Arguments:</strong>
+    &ldquo;none&rdquo;</p>
+</div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-restart-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-restart-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-restart-example-curl">
+                                <pre><code class="hljs curl">curl -X GET "/Restart"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-restart-example-http">
+                                <pre><code class="hljs http">GET /Restart HTTP/1.1
+Host: </code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-restart-responses-d6c432cf-dad1-4692-9ac4-8e0d30965092" data-toggle="tab">
+                                    
+                                    Response
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-restart-responses-d6c432cf-dad1-4692-9ac4-8e0d30965092">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "status": "success"
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-factory-reset">
+                        Factory Reset
+                        <a href="#request-factory-reset"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div><h3>Description</h3>
+
+<p>Restores all settings to factory defaults.</p>
+
+<h3>Command Usage</h3>
+
+<p><strong>Request Format Example:</strong>
+    &ldquo;none&rdquo;</p>
+
+<p><strong>Arguments:</strong>
+    &ldquo;none&rdquo;</p>
+</div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-factory-reset-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-factory-reset-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-factory-reset-example-curl">
+                                <pre><code class="hljs curl">curl -X GET "/Reset"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-factory-reset-example-http">
+                                <pre><code class="hljs http">GET /Reset HTTP/1.1
+Host: </code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-factory-reset-responses-d404b90b-014e-40f4-b4da-dd163e4f2e58" data-toggle="tab">
+                                    
+                                    Response
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-factory-reset-responses-d404b90b-014e-40f4-b4da-dd163e4f2e58">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "status": "success"
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-request-update">
+                        Request Update
+                        <a href="#request-request-update"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div><h3>Description</h3>
+
+<p>Requests that the unit update itself. Note that unit must have an update avaliable to be able to update. Use &ldquo;Get Update Info&rdquo; to check if an update is avaliable.</p>
+
+<h3>Command Usage</h3>
+
+<p><strong>Request Format Example:</strong>
+    &ldquo;none&rdquo;</p>
+
+<p><strong>Arguments:</strong>
+    &ldquo;none&rdquo;</p>
+</div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-request-update-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-request-update-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-request-update-example-curl">
+                                <pre><code class="hljs curl">curl -X GET "/Update"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-request-update-example-http">
+                                <pre><code class="hljs http">GET /Update HTTP/1.1
+Host: </code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-request-update-responses-eaa0d4ea-fdb6-4099-94be-724c9962a3cc" data-toggle="tab">
+                                    
+                                    Response
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-request-update-responses-eaa0d4ea-fdb6-4099-94be-724c9962a3cc">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "status": "success"
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-get-update-info">
+                        Get Update Info
+                        <a href="#request-get-update-info"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div><h3>Description</h3>
+
+<p>Checks if a firmware update is avaliable for this unit.</p>
+
+<h3>Command Usage</h3>
+
+<p><strong>Request Format Example:</strong>
+    &ldquo;none&rdquo;</p>
+
+<p><strong>Arguments:</strong>
+    &ldquo;none&rdquo;</p>
+</div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-get-update-info-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-get-update-info-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-get-update-info-example-curl">
+                                <pre><code class="hljs curl">curl -X POST -H "Content-Type: application/json" "/GetUpdateInfo"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-get-update-info-example-http">
+                                <pre><code class="hljs http">POST /GetUpdateInfo HTTP/1.1
+Host: 
+Content-Type: application/json</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-get-update-info-responses-48ed65b5-5c0e-46db-89c2-d47cd576b375" data-toggle="tab">
+                                    
+                                    Response
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-get-update-info-responses-48ed65b5-5c0e-46db-89c2-d47cd576b375">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "status": "success",
+    "update": {
+        "avaliable": false,
+        "message": "No update is avaliable."
+    }
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-set-active-source">
+                        Set Active Source
+                        <a href="#request-set-active-source"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div><h3>Description</h3>
+
+<p>Sets the desired source to route to the sink.</p>
+
+<h3>Command Usage</h3>
+
+<p><strong>Request Format Example:</strong></p>
+
+<pre><code>{
+    &quot;source&quot;: 0
+}
+</code></pre>
+
+<p><strong>Arguments:</strong></p>
+
+<pre><code>&quot;source&quot; (required)
+    Type: Integer
+    Parameter: Desired source
+</code></pre>
+</div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-set-active-source-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-set-active-source-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-set-active-source-example-curl">
+                                <pre><code class="hljs curl">curl -X POST -H "Content-Type: application/json" -d '{
+    "source": "1"
+}' "/SetActiveSource"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-set-active-source-example-http">
+                                <pre><code class="hljs http">POST /SetActiveSource HTTP/1.1
+Host: 
+Content-Type: application/json
+
+{
+    "source": "1"
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-set-active-source-responses-47409d0e-3f4a-45cd-a0c6-64aed47beff7" data-toggle="tab">
+                                    
+                                    Set Active Source (Already Selected)
+                                    
+                                </a>
+                            </li>
+                            
+                            <li role="presentation">
+                                <a href="#request-set-active-source-responses-f9c2e89a-e811-463e-8174-e6b65c5dbd04" data-toggle="tab">
+                                    
+                                    Set Active Source
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-set-active-source-responses-47409d0e-3f4a-45cd-a0c6-64aed47beff7">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "status": "success",
+    "message": "Source is already selected."
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                            <div class="tab-pane" id="request-set-active-source-responses-f9c2e89a-e811-463e-8174-e6b65c5dbd04">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "status": "success"
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-set-auto-switch">
+                        Set Auto Switch
+                        <a href="#request-set-auto-switch"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div><h3>Description</h3>
+
+<p>Enables or disable the autoswitch setting. Autoswitch will automatically switch the input when an input becomes active.</p>
+
+<h3>Command Usage</h3>
+
+<p><strong>Request Format Example:</strong></p>
+
+<pre><code>{
+    &quot;autoswitch&quot;: true
+}
+</code></pre>
+
+<p><strong>Arguments:</strong></p>
+
+<pre><code>&quot;autoswitch&quot; (required)
+    Type: Boolean
+    Parameter: Set to true to enable, false otherwise.
+</code></pre>
+</div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-set-auto-switch-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-set-auto-switch-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-set-auto-switch-example-curl">
+                                <pre><code class="hljs curl">curl -X POST -H "Content-Type: application/json" -d '{
+    "autoswitch": true
+}' "/SetAutoSwitch"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-set-auto-switch-example-http">
+                                <pre><code class="hljs http">POST /SetAutoSwitch HTTP/1.1
+Host: 
+Content-Type: application/json
+
+{
+    "autoswitch": true
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-set-auto-switch-responses-9e0cf158-ecbe-4c72-84f5-454a44c0a95b" data-toggle="tab">
+                                    
+                                    Response
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-set-auto-switch-responses-9e0cf158-ecbe-4c72-84f5-454a44c0a95b">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "status": "success"
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-set-audio-settings">
+                        Set Audio Settings
+                        <a href="#request-set-audio-settings"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div><h3>Description</h3>
+
+<p>Sets desired analog output settings. All settings are optional and only requested settings will take effect.</p>
+
+<h3>Command Usage</h3>
+
+<p><strong>Request Format Example:</strong></p>
+
+<pre><code>{
+    &quot;audiosel&quot;: &quot;local&quot;,
+    &quot;mute&quot;: false,
+    &quot;volume&quot;: 50,
+    &quot;tune mode&quot;: &quot;disabled&quot;,
+    &quot;presets&quot;: &quot;flat&quot;,
+    &quot;band0&quot;: 0,
+    &quot;band1&quot;: 0,
+    &quot;band2&quot;: 0,
+    &quot;band3&quot;: 0,
+    &quot;band4&quot;: 0,
+    &quot;basstone&quot;: 0,
+    &quot;treble&quot;: 0,
+    &quot;surround&quot;: false,
+    &quot;surrlevel&quot;: 1,
+    &quot;basslevel&quot;: 31,
+    &quot;bass&quot;: false,
+    &quot;bassfreq&quot;: 100,
+    &quot;highpass&quot;: false
+}
+</code></pre>
+
+<p><strong>Arguments:</strong></p>
+
+<pre><code>&quot;audiosel&quot; (optional)
+    Type: String
+    Parameter: Sets the analog output source for HDMI local or HDMI ARC.
+&quot;mute&quot; (optional)
+    Type: Boolean
+    Parameter: Mutes the analog output when true, unmutes when false.
+&quot;volume&quot; (optional)
+    Type: Integer
+    Parameter: Sets the analog output volume level from 0 to 100.
+&quot;tune mode&quot; (optional)
+    Type: String
+    Parameter: Sets the digital processing unit to &quot;disabled&quot;, &quot;presets&quot;, &quot;equalizer&quot;, or &quot;tonecontrol&quot;.
+&quot;presets&quot; (optional)
+    Type: String
+    Parameter: Sets the preset to &quot;flat&quot;, &quot;rock&quot;, &quot;classical&quot;, &quot;dance&quot;, or &quot;acoustic&quot;. Note that tune mode must be set to &quot;presets&quot; to have an effect.
+&quot;band0&quot; (optional)
+    Type: Integer
+    Parameter: Sets the 115 Hz band of the graphic EQ to -11.75 dB to 12 dB. Note that tune mode must be set to &quot;equalizer&quot; to have an effect.
+&quot;band1&quot; (optional)
+    Type: Integer
+    Parameter: Sets the 330 Hz band of the graphic EQ to -11.75 dB to 12 dB. Note that tune mode must be set to &quot;equalizer&quot; to have an effect.
+&quot;band2&quot; (optional)
+    Type: Integer
+    Parameter: Sets the 990 Hz band of the graphic EQ to -11.75 dB to 12 dB. Note that tune mode must be set to &quot;equalizer&quot; to have an effect.
+&quot;band3&quot; (optional)
+    Type: Integer
+    Parameter: Sets the 3000 Hz band of the graphic EQ to -11.75 dB to 12 dB. Note that tune mode must be set to &quot;equalizer&quot; to have an effect.
+&quot;band4&quot; (optional)
+    Type: Integer
+    Parameter: Sets the 9900 Hz band of the graphic EQ to -11.75 dB to 12 dB. Note that tune mode must be set to &quot;equalizer&quot; to have an effect.
+&quot;basstone&quot; (optional)
+    Type: Integer
+    Parameter: Sets the bass of the tone control to -11.75 dB to 12 dB. Note that tune mode must be set to &quot;tonecontrol&quot; to have an effect.
+&quot;treble&quot; (optional)
+    Type: Integer
+    Parameter: Sets the treble of the tone control to -11.75 dB to 12 dB. Note that tune mode must be set to &quot;tonecontrol&quot; to have an effect.
+&quot;surround&quot; (optional)
+    Type: Boolean
+    Parameter: Enables or disables the surround effect.
+&quot;surrlvl&quot; (optional)
+    Type: Integer
+    Parameter: Sets the surround effect level to a value between 0 (least) and 7 (most).
+&quot;bass&quot; (optional)
+    Type: Boolean
+    Parameter: Enables or disables the bass enchancement effect.
+&quot;basslvl&quot; (optional)
+    Type: Integer
+    Parameter: Sets the surround effect level to a value between 0 (least) and 127 (most).
+&quot;bassfreq&quot; (optional)
+    Type: Integer
+    Parameter: Sets the cutoff frequency for the bass enchancement to 80, 100, 125, 150, 175, 200, or 225.
+&quot;highpass&quot; (optional)
+    Type: Boolean
+    Parameter: Enables or disables the highpass filter for the bass enchancement.
+</code></pre>
+</div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-set-audio-settings-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-set-audio-settings-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-set-audio-settings-example-curl">
+                                <pre><code class="hljs curl">curl -X POST -H "Content-Type: application/json" -d '{
+    "audiosel": "local",
+    "mute": false,
+    "volume": 50,
+    "tune mode": "disabled",
+    "presets": "flat",
+    "band0": 0,
+    "band1": 0,
+    "band2": 0,
+    "band3": 0,
+    "band4": 0,
+    "basstone": 0,
+    "treble": 0,
+    "surround": false,
+    "surrlevel": 1,
+    "basslevel": 31,
+    "bass": false,
+    "bassfreq": 100,
+    "highpass": false
+}' "/SetAudioSettings"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-set-audio-settings-example-http">
+                                <pre><code class="hljs http">POST /SetAudioSettings HTTP/1.1
+Host: 
+Content-Type: application/json
+
+{
+    "audiosel": "local",
+    "mute": false,
+    "volume": 50,
+    "tune mode": "disabled",
+    "presets": "flat",
+    "band0": 0,
+    "band1": 0,
+    "band2": 0,
+    "band3": 0,
+    "band4": 0,
+    "basstone": 0,
+    "treble": 0,
+    "surround": false,
+    "surrlevel": 1,
+    "basslevel": 31,
+    "bass": false,
+    "bassfreq": 100,
+    "highpass": false
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-set-audio-settings-responses-8efade04-874c-411d-bafe-2385155f91c4" data-toggle="tab">
+                                    
+                                    Set Audio Settings (All Settings)
+                                    
+                                </a>
+                            </li>
+                            
+                            <li role="presentation">
+                                <a href="#request-set-audio-settings-responses-cd41ca08-6d6d-472b-a033-4efa255355e8" data-toggle="tab">
+                                    
+                                    Set Audio Settings (One Setting)
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-set-audio-settings-responses-8efade04-874c-411d-bafe-2385155f91c4">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "status": "success"
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                            <div class="tab-pane" id="request-set-audio-settings-responses-cd41ca08-6d6d-472b-a033-4efa255355e8">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "status": "success"
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-upload-edid">
+                        Upload Edid
+                        <a href="#request-upload-edid"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div><h3>Description</h3>
+
+<p>Upload a EDID file. Must be 256 bytes of raw EDID data. Can save up to 4 different EDID files. Subsequent uploads overwrites oldest file.</p>
+
+<h3>Command Usage</h3>
+
+<p><strong>Request Format Example:</strong>
+    &ldquo;none&rdquo;</p>
+
+<p><strong>Arguments:</strong>
+    &ldquo;none&rdquo;</p>
+</div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-upload-edid-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-upload-edid-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-upload-edid-example-curl">
+                                <pre><code class="hljs curl">curl -X POST -H "Content-Type: application/json" "/UploadEdid"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-upload-edid-example-http">
+                                <pre><code class="hljs http">POST /UploadEdid HTTP/1.1
+Host: 
+Content-Type: application/json</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-upload-edid-responses-4417f6f1-7afd-4bfd-b9c5-0e6856a80e59" data-toggle="tab">
+                                    
+                                    Response
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-upload-edid-responses-4417f6f1-7afd-4bfd-b9c5-0e6856a80e59">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "status": "success",
+    "message": "EDID \"M50-E1\n      \" successfully uploaded."
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-set-edid">
+                        Set Edid
+                        <a href="#request-set-edid"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div><h3>Description</h3>
+
+<p>Sets the desired EDID to the desired source. For &ldquo;1080p60&rdquo; EDID, HDR is not required and has no effect, only &ldquo;audio ch&rdquo;. For &ldquo;2160p30&rdquo; and &ldquo;2160p60&rdquo;, both &ldquo;audio ch&rdquo; and &ldquo;hdr&rdquo; are required. For all others, &ldquo;audio ch&rdquo; and &ldquo;hdr&rdquo; is not required and has no effect.</p>
+
+<h3>Command Usage</h3>
+
+<p><strong>Request Format Example:</strong></p>
+
+<pre><code>{
+    &quot;source&quot;: 0,
+    &quot;edid&quot;: &quot;1080p60&quot;,
+    &quot;audio ch&quot;: 2,
+    &quot;hdr&quot;: false
+}
+</code></pre>
+
+<p><strong>Arguments:</strong></p>
+
+<pre><code>&quot;source&quot; (required)
+    Type: Integer or String
+    Parameter: Select the desired source specifying the number or &quot;all&quot; for all sources.
+&quot;edid&quot; (required)
+    Type: String
+    Parameter: Select the desired edid between &quot;1080p60&quot;, &quot;2160p30&quot;, &quot;2160p60&quot;, &quot;sink&quot;, &quot;custom0&quot;, &quot;custom1&quot;, &quot;custom2&quot;, or &quot;custom3&quot;. Note if selecting &quot;1080p60&quot;, then &quot;audio ch&quot; parameter must be included. If selecting &quot;2160p30&quot;, or &quot;2160p60&quot; then &quot;audio ch&quot; and &quot;hdr&quot; parameter must be included.
+&quot;audio ch&quot; (dependency)
+    Type: String or Integer
+    Parameter: Select the desired audio channels for &quot;1080p60&quot;, &quot;2160p30&quot;, or &quot;2160p60&quot; edids.
+&quot;hdr&quot; (dependency)
+    Type: String or Integer
+    Parameter: Select if HDR is desired for &quot;2160p30&quot; or &quot;2160p60&quot; edids.
+</code></pre>
+</div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-set-edid-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-set-edid-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-set-edid-example-curl">
+                                <pre><code class="hljs curl">curl -X POST -H "Content-Type: application/json" -d '{
+    "source": "all",
+    "edid": "sink"
+}' "/SetEdid"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-set-edid-example-http">
+                                <pre><code class="hljs http">POST /SetEdid HTTP/1.1
+Host: 
+Content-Type: application/json
+
+{
+    "source": "all",
+    "edid": "sink"
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-set-edid-responses-4257b758-a2a9-4575-9717-0e81a7fdc2c1" data-toggle="tab">
+                                    
+                                    Set Edid (One Source)
+                                    
+                                </a>
+                            </li>
+                            
+                            <li role="presentation">
+                                <a href="#request-set-edid-responses-0e3bf51c-a26b-47e1-9733-f9049e8f3f41" data-toggle="tab">
+                                    
+                                    Set Edid (All Sources)
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-set-edid-responses-4257b758-a2a9-4575-9717-0e81a7fdc2c1">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "status": "success"
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                            <div class="tab-pane" id="request-set-edid-responses-0e3bf51c-a26b-47e1-9733-f9049e8f3f41">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "status": "success"
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-set-hostname">
+                        Set Hostname
+                        <a href="#request-set-hostname"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div><h3>Description</h3>
+
+<p>Sets the new hostname of the unit. This will affect Zeroconf / Avahi hostname broadcasting.</p>
+
+<h3>Command Usage</h3>
+
+<p><strong>Request Format Example:</strong></p>
+
+<pre><code>{
+    &quot;hostname&quot;: &quot;NEW HOSTNAME&quot;
+}
+</code></pre>
+
+<p><strong>Arguments:</strong></p>
+
+<pre><code>&quot;hostname&quot; (required)
+    Type: String
+    Parameter: Type desired new hostname for the unit
+</code></pre>
+</div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-set-hostname-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-set-hostname-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-set-hostname-example-curl">
+                                <pre><code class="hljs curl">curl -X POST -H "Content-Type: application/json" -d '{
+    "hostname": "HOST LONGER THAN 14 CHARACTERS"
+}' "/SetHostname"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-set-hostname-example-http">
+                                <pre><code class="hljs http">POST /SetHostname HTTP/1.1
+Host: 
+Content-Type: application/json
+
+{
+    "hostname": "HOST LONGER THAN 14 CHARACTERS"
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-set-hostname-responses-a60ce7f2-7058-49da-a186-833a556fdbfe" data-toggle="tab">
+                                    
+                                    Response
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-set-hostname-responses-a60ce7f2-7058-49da-a186-833a556fdbfe">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "status": "success"
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-set-static-ip">
+                        Set Static IP
+                        <a href="#request-set-static-ip"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div><h3>Description</h3>
+
+<p>Sets the static IP setting of the unit. This will affect only take affect if or when the unit is set to static mode using the &ldquo;Set DHCP&rdquo; API.</p>
+
+<h3>Command Usage</h3>
+
+<p><strong>Request Format Example:</strong></p>
+
+<p>{
+    &ldquo;ip address&rdquo;: &ldquo;192.168.1.100&rdquo;,
+    &ldquo;netmask&rdquo;: &ldquo;255.255.255.0&rdquo;,
+    &ldquo;gateway&rdquo;: &ldquo;192.168.1.1&rdquo;
+  }</p>
+
+<p><strong>Arguments:</strong></p>
+
+<pre><code>&quot;ip address&quot; (required)
+    Type: String
+    Parameter: Type desired new static ip address of the unit.
+&quot;netmask&quot; (required)
+    Type: String
+    Parameter: Type desired new netmask of the unit.
+&quot;gateway&quot; (required)
+    Type: String
+    Parameter: Type desired new gateway of the unit.
+</code></pre>
+</div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-set-static-ip-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-set-static-ip-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-set-static-ip-example-curl">
+                                <pre><code class="hljs curl">curl -X POST -H "Content-Type: application/json" -d '{
+    "ip address": "192.168.100.254",
+    "netmask": "255.255.255.0",
+    "gateway": "192.168.100.1"
+    
+}' "/SetStaticIP"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-set-static-ip-example-http">
+                                <pre><code class="hljs http">POST /SetStaticIP HTTP/1.1
+Host: 
+Content-Type: application/json
+
+{
+    "ip address": "192.168.100.254",
+    "netmask": "255.255.255.0",
+    "gateway": "192.168.100.1"
+    
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-set-static-ip-responses-67de1a2a-6760-4d9e-8381-41f8c8d4e87f" data-toggle="tab">
+                                    
+                                    Response
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-set-static-ip-responses-67de1a2a-6760-4d9e-8381-41f8c8d4e87f">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "status": "success"
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+                
+                <div class="request">
+
+                    <h3 id="request-set-dhcp">
+                        Set DHCP
+                        <a href="#request-set-dhcp"><i class="glyphicon glyphicon-link"></i></a>
+                    </h3>
+
+                    <div><h3>Description</h3>
+
+<p>Sets the network settings to DHCP (AutoIP fallback) or static IP mode.</p>
+
+<h3>Command Usage</h3>
+
+<p><strong>Request Format Example:</strong></p>
+
+<pre><code>{
+    &quot;dhcp&quot;: false
+}
+</code></pre>
+
+<p><strong>Arguments:</strong>
+    &ldquo;dhcp&rdquo; (required)
+        Type: Boolean
+        Parameter: Set to true to enable DHCP (AutoIP fallback), false to set to static IP.</p>
+</div>
+
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#request-set-dhcp-example-curl" data-toggle="tab">Curl</a></li>
+                            <li role="presentation"><a href="#request-set-dhcp-example-http" data-toggle="tab">HTTP</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-set-dhcp-example-curl">
+                                <pre><code class="hljs curl">curl -X POST -H "Content-Type: application/json" -d '{
+    "dhcp": true
+}' "/SetDHCP"</code></pre>
+                            </div>
+                            <div class="tab-pane" id="request-set-dhcp-example-http">
+                                <pre><code class="hljs http">POST /SetDHCP HTTP/1.1
+Host: 
+Content-Type: application/json
+
+{
+    "dhcp": true
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            
+                            <li role="presentation" class="active">
+                                <a href="#request-set-dhcp-responses-18dbde69-6ab7-4bd1-b959-c2e4bc25334e" data-toggle="tab">
+                                    
+                                    Response
+                                    
+                                </a>
+                            </li>
+                            
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="request-set-dhcp-responses-18dbde69-6ab7-4bd1-b959-c2e4bc25334e">
+                                <table class="table table-bordered">
+                                    <tr><th style="width: 20%;">Status</th><td>200 OK</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Server</th><td>zigenIP (http://zigencorp.com)</td></tr>
+                                    
+                                    <tr><th style="width: 20%;">Content-type</th><td>application/json</td></tr>
+                                    
+                                    
+                                    
+                                    <tr><td class="response-text-sample" colspan="2">
+                                        <pre><code>{
+    "status": "success"
+}</code></pre>
+                                    </td></tr>
+                                    
+                                    
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+
+                    <hr>
+                </div>
+                
+
+
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("table:not(.table)").addClass('table table-bordered');
+    });
+</script>
+</body>
+</html>
