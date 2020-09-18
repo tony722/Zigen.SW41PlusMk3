@@ -11,7 +11,7 @@
 [END]
 [BEGIN]
   ObjTp=Hd
-  IncludePath1=..\\AET.Zigen.SW41PlusMk3\\AET.Zigen.SW41PlusV3\\bin\\Debug
+  IncludePath1=Z:\\Projects\\AET\\Zigen\\SW-41Plus MKIII\\AET.Zigen.SW41PlusMk3\\AET.Zigen.SW41PlusV3\\bin\\Debug
 [END]
 [BEGIN]
   ObjTp=Symbol
@@ -189,6 +189,22 @@
   OutputList2SigType9=Analog
   OutputList2Cue10=Treble_F
   OutputList2SigType10=Analog
+  OutputList2Cue11=Video_Out_F
+  OutputList2SigType11=Analog
+  OutputList2Cue12=Band115$
+  OutputList2SigType12=Serial
+  OutputList2Cue13=Band330$
+  OutputList2SigType13=Serial
+  OutputList2Cue14=Band990$
+  OutputList2SigType14=Serial
+  OutputList2Cue15=Band3000$
+  OutputList2SigType15=Serial
+  OutputList2Cue16=Band9900$
+  OutputList2SigType16=Serial
+  OutputList2Cue17=Bass$
+  OutputList2SigType17=Serial
+  OutputList2Cue18=Treble$
+  OutputList2SigType18=Serial
   ParamCue1=[Reference Name]
   ParamCue2=Host_Name
   ParamSigType2=String
@@ -198,8 +214,8 @@
   MaxVariableInputsList2=11
   MinVariableOutputs=24
   MaxVariableOutputs=24
-  MinVariableOutputsList2=10
-  MaxVariableOutputsList2=10
+  MinVariableOutputsList2=18
+  MaxVariableOutputsList2=18
   MinVariableParams=1
   MaxVariableParams=1
   Expand=expand_separately
@@ -240,9 +256,7 @@
   ObjTp=Dp
   H=2
   Tp=1
-  SD=Address of SW-41Plus MKIII unit: http://hostname[:port]/
-  HD=True
-  DV=http://192.168.1.10/
+  HD=False
   NoS=False
   VVS=0
 [END]

@@ -109,38 +109,38 @@ namespace AET.Zigen.SW41PlusV3.Tests {
     }
 
     private void SetupDelegates() {
-      sw41.AudioSettings.SetLocalAudioF = value => LocalAudioF = value;
-      sw41.AudioSettings.SetArcAudioF = value => ArcAudioF = value;
-      sw41.AudioSettings.SetMuteF = value => MuteF = value;
-      sw41.AudioSettings.SetVolumeF = value => VolumeF = value;
-      sw41.AudioSettings.SetTuneModeDisabledF = value => TuneModeDisabledF = value;
-      sw41.AudioSettings.SetTuneModePresetsF = value => TuneModePresetsF = value;
-      sw41.AudioSettings.SetTuneModeEqualizerF = value => TuneModeEqualizerF = value;
-      sw41.AudioSettings.SetTuneModeToneControlF = value => TuneModeToneControlF = value;
-      sw41.AudioSettings.SetPresetFlatF = value => PresetFlatF = value;
-      sw41.AudioSettings.SetPresetRockF = value => PresetRockF = value;
-      sw41.AudioSettings.SetPresetClassicalF = value => PresetClassicalF = value;
-      sw41.AudioSettings.SetPresetDanceF = value => PresetDanceF = value;
-      sw41.AudioSettings.SetPresetAcousticF = value => PresetAcousticF = value;
-      sw41.AudioSettings.SetBand115F = value => Band115F = value;
-      sw41.AudioSettings.SetBand330F = value => Band330F = value;
-      sw41.AudioSettings.SetBand990F = value => Band990F = value;
-      sw41.AudioSettings.SetBand3000F = value => Band3000F = value;
-      sw41.AudioSettings.SetBand9900F = value => Band9900F = value;
-      sw41.AudioSettings.SetBassF = value => BassF = value;
-      sw41.AudioSettings.SetTrebleF = value => TrebleF = value;
-      sw41.AudioSettings.SetBassEnhancementF = value => BassEnhancementF = value;
-      sw41.AudioSettings.SetSurroundF = value => SurroundF = value;
-      sw41.AudioSettings.SetSurroundLevelF = value => SurroundLevelF = value;
-      sw41.AudioSettings.SetBassLevelF = value => BassLevelF = value;
-      sw41.AudioSettings.SetBassCFreq80F = value => BassCFreq80F = value;
-      sw41.AudioSettings.SetBassCFreq100F = value => BassCFreq100F = value;
-      sw41.AudioSettings.SetBassCFreq125F = value => BassCFreq125F = value;
-      sw41.AudioSettings.SetBassCFreq150F = value => BassCFreq150F = value;
-      sw41.AudioSettings.SetBassCFreq175F = value => BassCFreq175F = value;
-      sw41.AudioSettings.SetBassCFreq200F = value => BassCFreq200F = value;
-      sw41.AudioSettings.SetBassCFreq225F = value => BassCFreq225F = value;
-      sw41.AudioSettings.SetHighPassF = value => HighPassF = value;
+      sw41.SetLocalAudioF = value => LocalAudioF = value;
+      sw41.SetArcAudioF = value => ArcAudioF = value;
+      sw41.SetMuteF = value => MuteF = value;
+      sw41.SetVolumeF = value => VolumeF = value;
+      sw41.SetTuneModeDisabledF = value => TuneModeDisabledF = value;
+      sw41.SetTuneModePresetsF = value => TuneModePresetsF = value;
+      sw41.SetTuneModeEqualizerF = value => TuneModeEqualizerF = value;
+      sw41.SetTuneModeToneControlF = value => TuneModeToneControlF = value;
+      sw41.SetPresetFlatF = value => PresetFlatF = value;
+      sw41.SetPresetRockF = value => PresetRockF = value;
+      sw41.SetPresetClassicalF = value => PresetClassicalF = value;
+      sw41.SetPresetDanceF = value => PresetDanceF = value;
+      sw41.SetPresetAcousticF = value => PresetAcousticF = value;
+      sw41.SetBand115F = value => Band115F = value;
+      sw41.SetBand330F = value => Band330F = value;
+      sw41.SetBand990F = value => Band990F = value;
+      sw41.SetBand3000F = value => Band3000F = value;
+      sw41.SetBand9900F = value => Band9900F = value;
+      sw41.SetBassF = value => BassF = value;
+      sw41.SetTrebleF = value => TrebleF = value;
+      sw41.SetBassEnhancementF = value => BassEnhancementF = value;
+      sw41.SetSurroundF = value => SurroundF = value;
+      sw41.SetSurroundLevelF = value => SurroundLevelF = value;
+      sw41.SetBassLevelF = value => BassLevelF = value;
+      sw41.SetBassCFreq80F = value => BassCFreq80F = value;
+      sw41.SetBassCFreq100F = value => BassCFreq100F = value;
+      sw41.SetBassCFreq125F = value => BassCFreq125F = value;
+      sw41.SetBassCFreq150F = value => BassCFreq150F = value;
+      sw41.SetBassCFreq175F = value => BassCFreq175F = value;
+      sw41.SetBassCFreq200F = value => BassCFreq200F = value;
+      sw41.SetBassCFreq225F = value => BassCFreq225F = value;
+      sw41.SetHighPassF = value => HighPassF = value;
 
     }
   }

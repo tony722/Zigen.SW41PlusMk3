@@ -26,13 +26,13 @@ Contact me via http://iconsultants.net
 /*******************************************************************************************
   Include Libraries
 *******************************************************************************************/
-#INCLUDEPATH "..\\AET.Zigen.SW41PlusMk3\\AET.Zigen.SW41PlusV3\\bin\\Debug"
+#INCLUDEPATH "Z:\\Projects\\AET\\Zigen\\SW-41Plus MKIII\\AET.Zigen.SW41PlusMk3\\AET.Zigen.SW41PlusV3\\bin\\Debug"
 #USER_SIMPLSHARP_LIBRARY "AET.Zigen.Sw41PlusV3"
 
 /*******************************************************************************************
   DIGITAL, ANALOG and SERIAL INPUTS and OUTPUTS
 *******************************************************************************************/
-DIGITAL_INPUT _Skip_; 
+DIGITAL_INPUT _Skip_;
 DIGITAL_INPUT _Skip_;
 DIGITAL_INPUT  Debug, Poll;
 DIGITAL_INPUT Local_Audio, Arc_Audio; 
@@ -56,8 +56,9 @@ DIGITAL_OUTPUT Surround_F;
 DIGITAL_OUTPUT Bass_Enhancement_F, High_Pass_F;
 DIGITAL_OUTPUT Bass_Cut_Freq80_F, Bass_Cut_Freq100_F, Bass_Cut_Freq125_F, Bass_Cut_Freq150_F, Bass_Cut_Freq175_F, Bass_Cut_Freq200_F, Bass_Cut_Freq225_F;
 ANALOG_OUTPUT Volume_F, Surround_Level_F, Bass_Level_F;
-ANALOG_OUTPUT Band115_F, Band330_F, Band990_F, Band3000_F, Band9900_F, Bass_F, Treble_F;
-                                             
+ANALOG_OUTPUT Band115_F, Band330_F, Band990_F, Band3000_F, Band9900_F, Bass_F, Treble_F, Video_Out_F;
+STRING_OUTPUT Band115$, Band330$, Band990$, Band3000$, Band9900$, Bass$, Treble$;
+
 /*******************************************************************************************
   Parameters
 *******************************************************************************************/
@@ -67,16 +68,13 @@ STRING_PARAMETER Host_Name[255];
   Parameter Properties
   (Uncomment and declare parameter properties as needed)
 *******************************************************************************************/
-#BEGIN_PARAMETER_PROPERTIES Host_Name
-   propDefaultValue = "http://192.168.1.10/";
-   propShortDescription = "Address of SW-41Plus MKIII unit: http://hostname[:port]/";
-#END_PARAMETER_PROPERTIES
 
 /*******************************************************************************************
   Global Variables
 *******************************************************************************************/
 Sw41Plus sw41;
-SplusAudioSettings audioSettings;
+AudioSettings audioSettings;
+ActiveSource activeSource;
 
 /*******************************************************************************************
   Functions
@@ -101,6 +99,13 @@ callback function SetBand3000F(signed_integer value) { Band3000_F = value; }
 callback function SetBand9900F(signed_integer value) { Band9900_F = value; }
 callback function SetBassF(signed_integer value) { Bass_F = value; }
 callback function SetTrebleF(signed_integer value) { Treble_F = value; }
+callback function SetBand115Text(string value) { Band115$ = value; }
+callback function SetBand330Text(string value) { Band330$ = value; }
+callback function SetBand990Text(string value) { Band990$ = value; }
+callback function SetBand3000Text(string value) { Band3000$ = value; }
+callback function SetBand9900Text(string value) { Band9900$ = value; }
+callback function SetBassText(string value) { Bass$ = value; }
+callback function SetTrebleText(string value) { Treble$ = value; }
 callback function SetSurroundF(integer value) { Surround_F = value; }
 callback function SetSurroundLevelF(integer value) { Surround_Level_F = value; }
 callback function SetBassEnhancementF(integer value) { Bass_Enhancement_F = value; }
@@ -113,85 +118,81 @@ callback function SetBassCFreq175F(integer value) { Bass_Cut_Freq175_F = value; 
 callback function SetBassCFreq200F(integer value) { Bass_Cut_Freq200_F = value; }
 callback function SetBassCFreq225F(integer value) { Bass_Cut_Freq225_F = value; }
 callback function SetHighPassF(integer value) { High_Pass_F = value; }
+callback function SetVideoOutF(integer value) { Video_Out_F = value; }
+
 /*******************************************************************************************
   Event Handlers
 *******************************************************************************************/
 CHANGE Debug { sw41.Debug = Debug; }
 
-PUSH Poll { 
-  audioSettings.Poll();
-}
+PUSH Poll { sw41.Poll(); }
+
 
 CHANGE Video_Out {
-  sw41.ActiveSource.Source = Video_Out;
-  sw41.ActiveSource.Send();
+  activeSource.Source = Video_Out;
+  activeSource.Send();
 }
+PUSH Local_Audio {   audioSettings.AudioSelectLocal(); audioSettings.Send();}
+PUSH ARC_Audio   {   audioSettings.AudioSelectArc(); audioSettings.Send();}
 
-PUSH Local_Audio { audioSettings.AudioSelectLocal(); }
-PUSH ARC_Audio   { audioSettings.AudioSelectArc(); }
+CHANGE Mute { audioSettings.Mute = Mute; audioSettings.Send();}
+PUSH Mute_Toggle { audioSettings.MuteToggle(); audioSettings.Send();}
+PUSH Mute_On { audioSettings.Mute = 1; audioSettings.Send();}
+PUSH Mute_Off { audioSettings.Mute = 0; audioSettings.Send();}
 
-CHANGE Volume { audioSettings.Volume = Volume; }
+PUSH Tune_Mode_Disabled { audioSettings.TuneModeDisabled(); audioSettings.Send();}
+PUSH Tune_Mode_Presets { audioSettings.TuneModePresets(); audioSettings.Send();}
+PUSH Tune_Mode_Equalizer { audioSettings.TuneModeEqualizer(); audioSettings.Send();}
+PUSH Tune_Mode_Tone_Control { audioSettings.TuneModeToneControl(); audioSettings.Send();}
 
-CHANGE Mute { audioSettings.Mute = Mute; }
-PUSH Mute_Toggle { audioSettings.MuteToggle(); }
-PUSH Mute_On { audioSettings.Mute = 1; }
-PUSH Mute_Off { audioSettings.Mute = 0; }
+PUSH Preset_Flat { audioSettings.PresetFlat(); audioSettings.Send();}
+PUSH Preset_Rock { audioSettings.PresetRock(); audioSettings.Send();}
+PUSH Preset_Classical { audioSettings.PresetClassical(); audioSettings.Send();}
+PUSH Preset_Dance { audioSettings.PresetDance(); audioSettings.Send();}
+PUSH Preset_Acoustic { audioSettings.PresetAcoustic(); audioSettings.Send();}
 
-PUSH Tune_Mode_Disabled { audioSettings.TuneModeDisabled(); }
-PUSH Tune_Mode_Presets { audioSettings.TuneModePresets(); }
-PUSH Tune_Mode_Equalizer { audioSettings.TuneModeEqualizer(); }
-PUSH Tune_Mode_Tone_Control { audioSettings.TuneModeToneControl(); }
+CHANGE Surround { audioSettings.Surround = Surround; audioSettings.Send();}
+PUSH Surround_Toggle { audioSettings.SurroundToggle(); audioSettings.Send();}
+PUSH Surround_On { audioSettings.Surround = 1; audioSettings.Send();}
+PUSH Surround_Off  { audioSettings.Surround = 0; audioSettings.Send();}
 
-PUSH Preset_Flat { audioSettings.PresetFlat(); }
-PUSH Preset_Rock { audioSettings.PresetRock(); }
-PUSH Preset_Classical { audioSettings.PresetClassical(); }
-PUSH Preset_Dance { audioSettings.PresetDance(); }
-PUSH Preset_Acoustic { audioSettings.PresetAcoustic(); }
+CHANGE Bass_Enhancement { audioSettings.BassEnhancement = Bass_Enhancement; audioSettings.Send();}
+PUSH Bass_Enhancement_Toggle { audioSettings.BassEnhancementToggle(); audioSettings.Send();}
+PUSH Bass_Enhancement_On { audioSettings.BassEnhancement = 1; audioSettings.Send();}
+PUSH Bass_Enhancement_Off { audioSettings.BassEnhancement = 0; audioSettings.Send();}
+PUSH Bass_Cut_Freq80 { audioSettings.BassCutFreq80(); audioSettings.Send();}
+PUSH Bass_Cut_Freq100 { audioSettings.BassCutFreq100(); audioSettings.Send();}
+PUSH Bass_Cut_Freq125 { audioSettings.BassCutFreq125(); audioSettings.Send();}
+PUSH Bass_Cut_Freq150 { audioSettings.BassCutFreq150(); audioSettings.Send();}
+PUSH Bass_Cut_Freq175 { audioSettings.BassCutFreq175(); audioSettings.Send();}
+PUSH Bass_Cut_Freq200 { audioSettings.BassCutFreq200(); audioSettings.Send();}
+PUSH Bass_Cut_Freq225 { audioSettings.BassCutFreq225(); audioSettings.Send();}
 
-CHANGE Band115 { audioSettings.Band115 = Band115; }
-CHANGE Band330 { audioSettings.Band330 = Band330; }
-CHANGE Band990 { audioSettings.Band990 = Band990; }
-CHANGE Band3000 { audioSettings.Band3000 = Band3000; }
-CHANGE Band9900 { audioSettings.Band9900 = Band9900; }
 
-CHANGE Bass { audioSettings.Bass = Bass; }
-CHANGE Treble { audioSettings.Treble = Treble; }
+CHANGE High_Pass { audioSettings.HighPass = High_Pass; audioSettings.Send();}
+PUSH High_Pass_Toggle { audioSettings.HighPassToggle(); audioSettings.Send();}
+PUSH High_Pass_On { audioSettings.HighPass = 1; audioSettings.Send();}
+PUSH High_Pass_Off { audioSettings.HighPass = 0; audioSettings.Send();}
 
-CHANGE Surround { audioSettings.Surround = Surround; }
-PUSH Surround_Toggle { audioSettings.SurroundToggle(); }
-PUSH Surround_On { audioSettings.Surround = 1; }
-PUSH Surround_Off  { audioSettings.Surround = 0; }
+
+CHANGE Band115 { audioSettings.Band115 = Band115;}
+CHANGE Band330 { audioSettings.Band330 = Band330;}
+CHANGE Band990 { audioSettings.Band990 = Band990;}
+CHANGE Band3000 { audioSettings.Band3000 = Band3000;}
+CHANGE Band9900 { audioSettings.Band9900 = Band9900;}
+
+CHANGE Bass { audioSettings.Bass = Bass;}
+CHANGE Treble { audioSettings.Treble = Treble;}
+
+CHANGE Bass_Level { audioSettings.BassLevel = Bass_Level;}
 CHANGE Surround_Level { audioSettings.SurroundLevel = Surround_Level; }
 
-CHANGE Bass_Enhancement { audioSettings.BassEnhancement = Bass_Enhancement; }
-PUSH Bass_Enhancement_Toggle { audioSettings.BassEnhancementToggle(); }
-PUSH Bass_Enhancement_On { audioSettings.BassEnhancement = 1; }
-PUSH Bass_Enhancement_Off { audioSettings.BassEnhancement = 0; }
-CHANGE Bass_Level { audioSettings.BassLevel = Bass_Level; }
-PUSH Bass_Cut_Freq80 { audioSettings.BassCutFreq80(); }
-PUSH Bass_Cut_Freq100 { audioSettings.BassCutFreq100(); }
-PUSH Bass_Cut_Freq125 { audioSettings.BassCutFreq125(); }
-PUSH Bass_Cut_Freq150 { audioSettings.BassCutFreq150(); }
-PUSH Bass_Cut_Freq175 { audioSettings.BassCutFreq175(); }
-PUSH Bass_Cut_Freq200 { audioSettings.BassCutFreq200(); }
-PUSH Bass_Cut_Freq225 { audioSettings.BassCutFreq225(); }
-
-
-CHANGE High_Pass { audioSettings.HighPass = High_Pass; }
-PUSH High_Pass_Toggle { audioSettings.HighPassToggle(); }
-PUSH High_Pass_On { audioSettings.HighPass = 1; }
-PUSH High_Pass_Off { audioSettings.HighPass = 0; }
-
-CHANGE Bass_Enhancement, High_Pass, Mute, Surround
-PUSH ARC_Audio, Bass_Cut_Freq100, Bass_Cut_Freq125, Bass_Cut_Freq150, Bass_Cut_Freq175, Bass_Cut_Freq200, Bass_Cut_Freq225, Bass_Cut_Freq80, Bass_Enhancement_Off, Bass_Enhancement_On, Bass_Enhancement_Toggle, High_Pass_Off, High_Pass_On, High_Pass_Toggle, Local_Audio, Mute_Off, Mute_On, Mute_Toggle, Preset_Acoustic, Preset_Classical, Preset_Dance, Preset_Flat, Preset_Rock, Surround_Off , Surround_On, Surround_Toggle, Tune_Mode_Disabled, Tune_Mode_Equalizer, Tune_Mode_Presets, Tune_Mode_Tone_Control {
-  audioSettings.Send();
-}
+CHANGE Volume {   audioSettings.Volume = Volume;}
 
 CHANGE Band115, Band3000, Band330, Band990, Band9900, Bass, Bass_Level, Surround_Level, Treble, Volume {
   Wait(15, UpdateAnalogWait) { audioSettings.Send(); }
   RetimeWait(15, UpdateAnalogWait);
 }
-
 
 /*******************************************************************************************
   Main()
@@ -200,37 +201,48 @@ Function Main() {
   WaitForInitializationComplete();
   sw41.HostName = Host_Name;
   audioSettings = sw41.AudioSettings;
-  Local_Audio_F = 1;  
-	RegisterDelegate(audioSettings,SetLocalAudioF,SetLocalAudioF);
-	RegisterDelegate(audioSettings,SetArcAudioF,SetArcAudioF);
-	RegisterDelegate(audioSettings,SetMuteF,SetMuteF);
-	RegisterDelegate(audioSettings,SetVolumeF,SetVolumeF);
-	RegisterDelegate(audioSettings,SetTuneModeDisabledF,SetTuneModeDisabledF);
-	RegisterDelegate(audioSettings,SetTuneModePresetsF,SetTuneModePresetsF);
-	RegisterDelegate(audioSettings,SetTuneModeEqualizerF,SetTuneModeEqualizerF);
-	RegisterDelegate(audioSettings,SetTuneModeToneControlF,SetTuneModeToneControlF);
-	RegisterDelegate(audioSettings,SetPresetFlatF,SetPresetFlatF);
-	RegisterDelegate(audioSettings,SetPresetRockF,SetPresetRockF);
-	RegisterDelegate(audioSettings,SetPresetClassicalF,SetPresetClassicalF);
-	RegisterDelegate(audioSettings,SetPresetDanceF,SetPresetDanceF);
-	RegisterDelegate(audioSettings,SetPresetAcousticF,SetPresetAcousticF);
-	RegisterDelegate(audioSettings,SetBand115F,SetBand115F);
-	RegisterDelegate(audioSettings,SetBand330F,SetBand330F);
-	RegisterDelegate(audioSettings,SetBand990F,SetBand990F);
-	RegisterDelegate(audioSettings,SetBand3000F,SetBand3000F);
-	RegisterDelegate(audioSettings,SetBand9900F,SetBand9900F);
-	RegisterDelegate(audioSettings,SetBassF,SetBassF);
-	RegisterDelegate(audioSettings,SetTrebleF,SetTrebleF);
-	RegisterDelegate(audioSettings,SetSurroundF,SetSurroundF);
-	RegisterDelegate(audioSettings,SetSurroundLevelF,SetSurroundLevelF);
-	RegisterDelegate(audioSettings,SetBassEnhancementF,SetBassEnhancementF);
-	RegisterDelegate(audioSettings,SetBassLevelF,SetBassLevelF);
-	RegisterDelegate(audioSettings,SetBassCFreq80F,SetBassCFreq80F);
-	RegisterDelegate(audioSettings,SetBassCFreq100F,SetBassCFreq100F);
-	RegisterDelegate(audioSettings,SetBassCFreq125F,SetBassCFreq125F);
-	RegisterDelegate(audioSettings,SetBassCFreq150F,SetBassCFreq150F);
-	RegisterDelegate(audioSettings,SetBassCFreq175F,SetBassCFreq175F);
-	RegisterDelegate(audioSettings,SetBassCFreq200F,SetBassCFreq200F);
-	RegisterDelegate(audioSettings,SetBassCFreq225F,SetBassCFreq225F);
-	RegisterDelegate(audioSettings,SetHighPassF,SetHighPassF); 
+  activeSource = sw41.ActiveSource;
+  
+	RegisterDelegate(sw41, SetLocalAudioF,SetLocalAudioF);
+	RegisterDelegate(sw41, SetArcAudioF,SetArcAudioF);
+	RegisterDelegate(sw41, SetMuteF,SetMuteF);
+	RegisterDelegate(sw41, SetVolumeF,SetVolumeF);
+	RegisterDelegate(sw41, SetTuneModeDisabledF,SetTuneModeDisabledF);
+	RegisterDelegate(sw41, SetTuneModePresetsF,SetTuneModePresetsF);
+	RegisterDelegate(sw41, SetTuneModeEqualizerF,SetTuneModeEqualizerF);
+	RegisterDelegate(sw41, SetTuneModeToneControlF,SetTuneModeToneControlF);
+	RegisterDelegate(sw41, SetPresetFlatF,SetPresetFlatF);
+	RegisterDelegate(sw41, SetPresetRockF,SetPresetRockF);
+	RegisterDelegate(sw41, SetPresetClassicalF,SetPresetClassicalF);
+	RegisterDelegate(sw41, SetPresetDanceF,SetPresetDanceF);
+	RegisterDelegate(sw41, SetPresetAcousticF,SetPresetAcousticF);
+	RegisterDelegate(sw41, SetBand115F,SetBand115F);
+	RegisterDelegate(sw41, SetBand330F,SetBand330F);
+	RegisterDelegate(sw41, SetBand990F,SetBand990F);
+	RegisterDelegate(sw41, SetBand3000F,SetBand3000F);
+	RegisterDelegate(sw41, SetBand9900F,SetBand9900F);
+	RegisterDelegate(sw41, SetBand115Text,SetBand115Text);
+	RegisterDelegate(sw41, SetBand330Text,SetBand330Text);
+	RegisterDelegate(sw41, SetBand990Text,SetBand990Text);
+	RegisterDelegate(sw41, SetBand3000Text,SetBand3000Text);
+	RegisterDelegate(sw41, SetBand9900Text,SetBand9900Text);
+	RegisterDelegate(sw41, SetBassF,SetBassF);
+	RegisterDelegate(sw41, SetTrebleF,SetTrebleF);
+	RegisterDelegate(sw41, SetBassText,SetBassText);
+	RegisterDelegate(sw41, SetTrebleText,SetTrebleText);
+	RegisterDelegate(sw41, SetSurroundF,SetSurroundF);
+	RegisterDelegate(sw41, SetSurroundLevelF,SetSurroundLevelF);
+	RegisterDelegate(sw41, SetBassEnhancementF,SetBassEnhancementF);
+	RegisterDelegate(sw41, SetBassLevelF,SetBassLevelF);
+	RegisterDelegate(sw41, SetBassCFreq80F,SetBassCFreq80F);
+	RegisterDelegate(sw41, SetBassCFreq100F,SetBassCFreq100F);
+	RegisterDelegate(sw41, SetBassCFreq125F,SetBassCFreq125F);
+	RegisterDelegate(sw41, SetBassCFreq150F,SetBassCFreq150F);
+	RegisterDelegate(sw41, SetBassCFreq175F,SetBassCFreq175F);
+	RegisterDelegate(sw41, SetBassCFreq200F,SetBassCFreq200F);
+	RegisterDelegate(sw41, SetBassCFreq225F,SetBassCFreq225F);
+	RegisterDelegate(sw41, SetHighPassF,SetHighPassF); 
+  RegisterDelegate(sw41, SetVideoOutF, SetVideoOutF);
+  
+  sw41.Poll();
 }

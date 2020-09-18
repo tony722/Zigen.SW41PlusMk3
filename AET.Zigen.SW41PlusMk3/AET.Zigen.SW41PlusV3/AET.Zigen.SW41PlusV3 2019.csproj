@@ -48,12 +48,10 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiObjects\ActiveSource.cs" />
-    <Compile Include="ApiObjects\AudioSettings.cs" />
+    <Compile Include="Api\ActiveSource.cs" />
+    <Compile Include="Api\AudioSettings.cs" />
+    <Compile Include="Api\Sw41PlusApiObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SplusObjects\SplusActiveSource.cs" />
-    <Compile Include="SplusObjects\SplusAudioSettings.cs" />
-    <Compile Include="SplusObjects\SplusDelegates.cs" />
     <Compile Include="Sw41Plus.cs" />
   </ItemGroup>
   <ItemGroup>
