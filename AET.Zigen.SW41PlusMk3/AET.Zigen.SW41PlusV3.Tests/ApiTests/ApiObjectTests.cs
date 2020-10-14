@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using AET.Unity.RestClient;
 using AET.Unity.SimplSharp.HttpClient;
+using AET.Zigen.SW41PlusV3.Api;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -1,5 +1,6 @@
 ﻿using AET.Unity.RestClient;
 using AET.Unity.SimplSharp;
+using AET.Zigen.SW41PlusV3.Api;
 
 namespace AET.Zigen.SW41PlusV3 {
   public class Sw41Plus : RestClient {

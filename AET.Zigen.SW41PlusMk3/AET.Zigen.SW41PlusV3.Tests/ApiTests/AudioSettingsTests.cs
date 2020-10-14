@@ -1,5 +1,6 @@
 ﻿using AET.Unity.SimplSharp;
 using AET.Unity.SimplSharp.HttpClient;
+using AET.Zigen.SW41PlusV3.Api;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

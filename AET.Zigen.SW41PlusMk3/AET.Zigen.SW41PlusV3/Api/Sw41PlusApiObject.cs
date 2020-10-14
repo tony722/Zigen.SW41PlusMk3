@@ -1,6 +1,6 @@
 ﻿using AET.Unity.RestClient;
 
-namespace AET.Zigen.SW41PlusV3 {
+namespace AET.Zigen.SW41PlusV3.Api {
   public abstract class Sw41PlusApiObject : ApiObject {
     protected Sw41PlusApiObject(string setUrl, string getUrl) : base(setUrl, getUrl) { }
 

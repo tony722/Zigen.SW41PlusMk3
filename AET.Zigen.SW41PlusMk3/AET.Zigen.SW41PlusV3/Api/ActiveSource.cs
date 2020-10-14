@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AET.Unity.RestClient;
-
-namespace AET.Zigen.SW41PlusV3 {
+﻿namespace AET.Zigen.SW41PlusV3.Api {
   public class ActiveSource : Sw41PlusApiObject {
     public ActiveSource() : base("/SetActiveSource", "/GetActiveSource") { }
 

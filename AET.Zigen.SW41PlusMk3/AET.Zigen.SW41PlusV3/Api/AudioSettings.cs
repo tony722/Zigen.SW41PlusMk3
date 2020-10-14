@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AET.Unity.RestClient;
 using AET.Unity.SimplSharp;
 
-namespace AET.Zigen.SW41PlusV3 {
+namespace AET.Zigen.SW41PlusV3.Api {
   public class AudioSettings : Sw41PlusApiObject {
 
     public AudioSettings() : base("/SetAudioSettings", "/GetAudioSettings") { }
