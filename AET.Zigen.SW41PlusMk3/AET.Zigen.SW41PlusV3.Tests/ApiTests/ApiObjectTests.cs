@@ -14,7 +14,7 @@ namespace AET.Zigen.SW41PlusV3.Tests {
 
     [TestInitialize]
     public void TestInit() {
-      sw41 = new Sw41Plus {HttpClient = Test.HttpClient};
+      sw41 = Test.Sw41;
       api = sw41.AudioSettings;
     }
 
@@ -22,10 +22,8 @@ namespace AET.Zigen.SW41PlusV3.Tests {
     public void ObjectChanged_SendsOnlyChangedPieces() {
       api.Volume = 655;
       api.Mute = 1;
-      api.Send();
       TestHttpClient.Clear();
       api.Volume = 7209;
-      api.Send();
       TestHttpClient.RequestContents.Should().Be(@"{""volume"":11}");
     }
   }

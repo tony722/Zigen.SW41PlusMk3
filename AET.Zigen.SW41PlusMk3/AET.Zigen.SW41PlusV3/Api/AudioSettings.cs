@@ -1,37 +1,68 @@
 ﻿using System;
+using AET.Unity.RestClient;
 using AET.Unity.SimplSharp;
+using Newtonsoft.Json.Linq;
 
 namespace AET.Zigen.SW41PlusV3.Api {
-  public class AudioSettings : Sw41PlusApiObject {
+  public class AudioSettings : Sw41PlusObject {
+    private JObject json;
+    public AudioSettings(Sw41Plus sw41) : this() {
+      Sw41Plus = sw41;
+    }
 
-    public AudioSettings() : base("/SetAudioSettings", "/GetAudioSettings") { }
+    public AudioSettings() : base("/SetAudioSettings","/GetAudioSettings") { }
 
+    internal void Initialize() {
+      AddEmptyDelegatesToSplusOutputs();
+      Band115 = new EqSetting(this, "band0");
+      Band330 = new EqSetting(this, "band1");
+      Band990 = new EqSetting(this, "band2");
+      Band3000 = new EqSetting(this, "band3");
+      Band9900 = new EqSetting(this, "band4");
+      Treble = new EqSetting(this, "treble");
+      Bass = new EqSetting(this, "basstone");
+    }
 
     #region AudioSelect
+
+    private string audioSelect;
     internal string AudioSelect {
-      get { return (string)Json["audiosel"]; }
+      get { return audioSelect; }
       set {
-        value = Clean(value);
-        Json["audiosel"] = value;
-        UpdateAudioSelectFb(value);
+        if (audioSelect == value) return;
+        Post("audiosel", value.ToLower());
+        AudioSelectF = value;
       }
     }
 
-    private void UpdateAudioSelectFb(string value) {
-      Sw41.SetLocalAudioF((value == "local").ToUshort());
-      Sw41.SetArcAudioF((value == "arc").ToUshort());
+    internal string AudioSelectF {
+      set {
+        audioSelect = value;
+        ShowFeedback(value == "local", SetAudioSelectLocalF);
+        ShowFeedback(value == "arc", SetAudioSelectArcF);
+      }
     }
 
-    public void AudioSelectArc() { AudioSelect = "arc"; }
     public void AudioSelectLocal() { AudioSelect = "local"; }
+    public void AudioSelectArc() { AudioSelect = "arc"; }
     #endregion
 
     #region Mute
+
+    private ushort mute;
     public ushort Mute {
-      get { return GetBool("mute").ToUshort(); }
+      get { return mute; }
       set {
-        Json["mute"] = value.ToBool();
-        Sw41.SetMuteF(value);
+        if (mute == value) return;
+        PostString("mute", value.ToBool());
+        MuteF = value;
+      }
+    }
+
+    public ushort MuteF {
+      set {
+        mute = value;
+        ShowFeedback(value, SetMuteF);
       }
     }
 
@@ -39,29 +70,47 @@ namespace AET.Zigen.SW41PlusV3.Api {
 
     #endregion
 
+    #region Volume
+
+    private ushort volume, volumeScaled;
     public ushort Volume {
-      get { return ConvertTo16Bit((long?)Json["volume"], 100); }
+      get { return volume; }
       set {
-        Json["volume"] = ConvertFrom16Bit(value, 100);
-        Sw41.SetVolumeF(value);
+        var valueScaled = value.ConvertFrom16Bit(100);
+        if (volumeScaled == valueScaled) return;
+        Post("volume", valueScaled);
+        UpdateVolumeF(value, valueScaled);
       }
     }
+
+    public void UpdateVolumeF(ushort value, ushort valueScaled) {
+      volume = value;
+      volumeScaled = valueScaled;
+      ShowFeedback(value, SetVolumeF);
+    }
+
+    #endregion
 
     #region TuneMode
+
+    private string tuneMode;
     internal string TuneMode {
-      get { return (string)Json["tune mode"]; }
+      get { return tuneMode; }
       set {
-        value = Clean(value);
-        Json["tune mode"] = value;
-        UpdateTuneModeFb(value);
+        if (tuneMode == value) return;
+        Post("tune mode", value);
+        TuneModeF = value;
       }
     }
 
-    private void UpdateTuneModeFb(string value) {
-      Sw41.SetTuneModeDisabledF((value == "disabled").ToUshort());
-      Sw41.SetTuneModePresetsF((value == "presets").ToUshort());
-      Sw41.SetTuneModeEqualizerF((value == "equalizer").ToUshort());
-      Sw41.SetTuneModeToneControlF((value == "tonecontrol").ToUshort());
+    internal string TuneModeF {
+      set {
+        tuneMode = value;
+        ShowFeedback(value == "disabled", SetTuneModeDisabledF);
+        ShowFeedback(value == "presets", SetTuneModePresetsF);
+        ShowFeedback(value == "equalizer", SetTuneModeEqualizerF);
+        ShowFeedback(value == "tonecontrol", SetTuneModeToneControlF);
+      }
     }
 
     public void TuneModeDisabled() { TuneMode = "disabled"; }
@@ -71,21 +120,26 @@ namespace AET.Zigen.SW41PlusV3.Api {
     #endregion
 
     #region Preset
+
+    private string preset;
     internal string Preset {
-      get { return (string)Json["preset"]; }
+      get { return preset; }
       set {
-        value = Clean(value);
-        Json["preset"] = value;
-        UpdatePresetFb(value);
+        if (preset == value) return;
+        Post("preset", value);
+        PresetF = value;
       }
     }
 
-    private void UpdatePresetFb(string value) {
-      Sw41.SetPresetFlatF((value == "flat").ToUshort());
-      Sw41.SetPresetRockF((value == "rock").ToUshort());
-      Sw41.SetPresetClassicalF((value == "classical").ToUshort());
-      Sw41.SetPresetDanceF((value == "dance").ToUshort());
-      Sw41.SetPresetAcousticF((value == "acoustic").ToUshort());
+    internal string PresetF {
+      set {
+        preset = value;
+        ShowFeedback(value == "flat", SetPresetFlatF);
+        ShowFeedback(value == "rock", SetPresetRockF);
+        ShowFeedback(value == "classical", SetPresetClassicalF);
+        ShowFeedback(value == "dance", SetPresetDanceF);
+        ShowFeedback(value == "acoustic", SetPresetAcousticF);
+      }
     }
 
     public void PresetFlat() { Preset = "flat"; }
@@ -94,121 +148,114 @@ namespace AET.Zigen.SW41PlusV3.Api {
     public void PresetDance() { Preset = "dance"; }
     public void PresetAcoustic() { Preset = "acoustic"; }
     #endregion
-    
+
     #region EQ Bands
-
-    public short Band115 {
-      get { return ConvertEqTo16Bit(GetDouble("band0")); }
-      set {
-        Json["band0"] = ConvertEqFrom16Bit(value);
-        Sw41.SetBand115F(value);
-        Sw41.SetBand115Text(Json["band0"].ToString());
-      }
-    }
-
-
-    public short Band330 {
-      get { return ConvertEqTo16Bit(GetDouble("band1")); }
-      set {
-        Json["band1"] = ConvertEqFrom16Bit(value);
-        Sw41.SetBand330F(value);
-        Sw41.SetBand330Text(Json["band1"].ToString());
-      }
-    }
-
-
-
-    public short Band990 {
-      get { return ConvertEqTo16Bit(GetDouble("band2")); }
-      set {
-        Json["band2"] = ConvertEqFrom16Bit(value);
-        Sw41.SetBand990F(value);
-        Sw41.SetBand990Text(Json["band2"].ToString());
-      }
-    }
-
-
-    public short Band3000 {
-      get { return ConvertEqTo16Bit(GetDouble("band3")); }
-      set {
-        Json["band3"] = ConvertEqFrom16Bit(value);
-        Sw41.SetBand3000F(value);
-        Sw41.SetBand3000Text(Json["band3"].ToString());
-      }
-    }
-
-    public short Band9900 {
-      get { return ConvertEqTo16Bit(GetDouble("band4")); }
-      set {
-        Json["band4"] = ConvertEqFrom16Bit(value);
-        Sw41.SetBand9900F(value);
-        Sw41.SetBand9900Text(Json["band4"].ToString());
-      }
-    }
-
-
+    public EqSetting Band115 { get; private set; }
+    public EqSetting Band330 { get; private set; }
+    public EqSetting Band990 { get; private set; }
+    public EqSetting Band3000 { get; private set; }
+    public EqSetting Band9900 { get; private set; }
+    public EqSetting Bass { get; private set; }
+    public EqSetting Treble { get; private set; }
     #endregion
-
-    #region Bass/Treble
-
-    public short Bass {
-      get { return ConvertEqTo16Bit(GetDouble("basstone")); }
-      set {
-        Json["basstone"] = ConvertEqFrom16Bit(value);
-        Sw41.SetBassF(value);
-        Sw41.SetBassText(Json["basstone"].ToString());
-      }
-
-    }
-
-    public short Treble {
-      get { return ConvertEqTo16Bit(GetDouble("treble")); }
-      set {
-        Json["treble"] = ConvertEqFrom16Bit(value);
-        Sw41.SetTrebleF(value);
-        Sw41.SetTrebleText(Json["treble"].ToString());
-      }
-    }
-
-    #endregion 
 
     #region Surround
 
+    private ushort surround;
     public ushort Surround {
-      get { return GetBool("surround").ToUshort(); }
+      get { return surround; }
       set {
-        Json["surround"] = value.ToBool();
-        Sw41.SetSurroundF(value);
+        if (surround == value) return;
+        PostString("surround", value.ToBool());
+        SurroundF = value;
       }
     }
+
+    public ushort SurroundF {
+      set {
+        surround = value;
+        ShowFeedback(value, SetSurroundF);
+      }
+    }
+
     public void SurroundToggle() { Surround = (ushort)(Surround == 0 ? 1 : 0); }
 
+    private ushort surroundLevel, surroundLevelScaled;
     public ushort SurroundLevel {
-      get { return ConvertTo16Bit(GetInt("surrlevel"), 7); }
+      get { return surroundLevel; }
       set {
-        Json["surrlevel"] = ConvertFrom16Bit(value, 7);
-        Sw41.SetSurroundLevelF(value);
+        var valueScaled = value.ConvertFrom16Bit(7);
+        if (surroundLevelScaled == valueScaled) return;
+        Post("surrlevel", valueScaled);
+        UpdateSurroundLevelF(value, valueScaled);
       }
     }
 
+    public void UpdateSurroundLevelF(ushort value, ushort valueScaled) {
+      surroundLevel = value;
+      surroundLevelScaled = valueScaled;
+      ShowFeedback(value, SetSurroundLevelF);
+    }
     #endregion
 
     #region BassEnhancement
 
-    public void BassEnhancementToggle() { BassEnhancement = (ushort)(BassEnhancement == 0 ? 1 : 0); }
+    private ushort bassEnhancement;
     public ushort BassEnhancement {
-      get { return GetBool("bass").ToUshort(); }
+      get { return bassEnhancement; }
       set {
-        Json["bass"] = value.ToBool();
-        Sw41.SetBassEnhancementF(value);
+        if (bassEnhancement == value) return;
+        PostString("bass", value.ToBool());
+        BassEnhancementF = value;
       }
     }
 
-    public ushort BassLevel {
-      get { return ConvertTo16Bit(GetInt("basslevel"), 127); }
+    public ushort BassEnhancementF {
       set {
-        Json["basslevel"] = ConvertFrom16Bit(value, 127);
-        Sw41.SetBassLevelF(value);
+        bassEnhancement = value;
+        ShowFeedback(value, SetBassEnhancementF);
+      }
+    }
+
+    public void BassEnhancementToggle() { BassEnhancement = (ushort)(BassEnhancement == 0 ? 1 : 0); }
+
+    private ushort bassLevel, bassLevelScaled;
+    public ushort BassLevel {
+      get { return bassLevel; }
+      set {
+        var valueScaled = value.ConvertFrom16Bit(127);
+        if (bassLevelScaled == valueScaled) return;
+        Post("basslevel", valueScaled);
+        UpdateBassLevelF(value, valueScaled);
+      }
+    }
+
+    public void UpdateBassLevelF(ushort value, ushort valueScaled) {
+      bassLevel = value;
+      bassLevelScaled = valueScaled;
+      ShowFeedback(value, SetBassLevelF);
+    }
+
+    private ushort bassCutoff;
+    internal ushort BassCutoff {
+      get { return bassCutoff; }
+      set {
+        if (bassCutoff == value) return;
+        Post("bassfreq", value);
+        BassCutoffF = value;
+      }
+    }
+
+    internal ushort BassCutoffF {
+      set {
+        bassCutoff = value;
+        ShowFeedback(value == 80, SetBassCutFreq80F);
+        ShowFeedback(value == 100, SetBassCutFreq100F);
+        ShowFeedback(value == 125, SetBassCutFreq125F);
+        ShowFeedback(value == 150, SetBassCutFreq150F);
+        ShowFeedback(value == 175, SetBassCutFreq175F);
+        ShowFeedback(value == 200, SetBassCutFreq200F);
+        ShowFeedback(value == 225, SetBassCutFreq225F);
       }
     }
 
@@ -220,61 +267,57 @@ namespace AET.Zigen.SW41PlusV3.Api {
     public void BassCutFreq200() { BassCutoff = 200; }
     public void BassCutFreq225() { BassCutoff = 225; }
 
-    internal ushort BassCutoff {
-      get { return (ushort)GetInt("bassfreq"); }
+
+    private ushort highPass;
+    public ushort HighPass {
+      get { return highPass; }
       set {
-        Json["bassfreq"] = value;
-        UpdateBassCutFreqFb(value);
+        if (highPass == value) return;
+        PostString("highpass", value.ToBool());
+        HighPassF = value;
       }
     }
 
-    private void UpdateBassCutFreqFb(ushort value) {
-      Sw41.SetBassCFreq80F((value == 80).ToUshort());
-      Sw41.SetBassCFreq100F((value == 100).ToUshort());
-      Sw41.SetBassCFreq125F((value == 125).ToUshort());
-      Sw41.SetBassCFreq150F((value == 150).ToUshort());
-      Sw41.SetBassCFreq175F((value == 175).ToUshort());
-      Sw41.SetBassCFreq200F((value == 200).ToUshort());
-      Sw41.SetBassCFreq225F((value == 225).ToUshort());
+    public ushort HighPassF {
+      set {
+        highPass = value;
+        ShowFeedback(value, SetHighPassF);
+      }
     }
 
     public void HighPassToggle() { HighPass = (ushort)(HighPass == 0 ? 1 : 0); }
-    public ushort HighPass {
-      get { return GetBool("highpass").ToUshort(); }
-      set {
-        Json["highpass"] = value.ToBool();
-        Sw41.SetHighPassF(value);
-      }
-    }
     #endregion
 
-    public override void Poll() {
-      FillJson("audioInfo", () => {
-        Json["preset"] = Json["presets"];
-        Json.Remove("presets");
+    public void Poll() {
+      var response = Sw41Plus.HttpGet(GetUrl);
+      try {
+        json = JObject.Parse(response);
+        json = json["audioInfo"] as JObject;
         FillFromJsonObject();
-      });
+      } catch (Exception ex) {
+        ErrorMessage.Error("Sw41Plus.AudioSettings.Poll: Error handling Poll() response: {0}", ex.Message);
+      }
     }
 
     private void FillFromJsonObject() {
-      UpdateAudioSelectFb(AudioSelect);
-      Sw41.SetMuteF(Mute);
-      Sw41.SetVolumeF(Volume);
-      UpdateTuneModeFb(TuneMode);
-      UpdatePresetFb(Preset);
-      Sw41.SetBand115F(Band115);
-      Sw41.SetBand330F(Band330);
-      Sw41.SetBand990F(Band990);
-      Sw41.SetBand3000F(Band3000);
-      Sw41.SetBand9900F(Band9900);
-      Sw41.SetBassF(Bass);
-      Sw41.SetTrebleF(Treble);
-      Sw41.SetSurroundF(Surround);
-      Sw41.SetSurroundLevelF(SurroundLevel);
-      Sw41.SetBassEnhancementF(BassEnhancement);
-      Sw41.SetBassLevelF(BassLevel);
-      UpdateBassCutFreqFb(BassCutoff);
-      Sw41.SetHighPassF(HighPass);
+      AudioSelectF = json["audiosel"].Value<string>();
+      MuteF = BoolFromJson("mute");
+      ScaledFromJson("volume", 100, UpdateVolumeF);
+      TuneModeF = json["tune mode"].Value<string>();
+      PresetF = json["presets"].Value<string>();
+      Band115.UpdateFeedback(json);
+      Band330.UpdateFeedback(json);
+      Band990.UpdateFeedback(json);
+      Band3000.UpdateFeedback(json);
+      Band9900.UpdateFeedback(json);
+      Bass.UpdateFeedback(json);
+      Treble.UpdateFeedback(json);
+      SurroundF = BoolFromJson("surround");
+      ScaledFromJson("surrlevel", 7, UpdateSurroundLevelF);
+      BassEnhancementF = BoolFromJson("bass");
+      ScaledFromJson("basslevel", 127, UpdateBassLevelF);
+      BassCutoffF = json["bassfreq"].Value<ushort>();
+      HighPassF = BoolFromJson("highpass");
     }
 
     #region Conversion Routines
@@ -288,34 +331,113 @@ namespace AET.Zigen.SW41PlusV3.Api {
       o = Math.Round(o * 4) / 4;
       return o;
     }
+
+    private void EqFromJson(string key, Action<short, double> updateFeedback) {
+      var valueScaled = json[key].Value<double>();
+      var value = ConvertEqTo16Bit(valueScaled);
+      updateFeedback(value, valueScaled);
+    }
+
+    private void ScaledFromJson(string key, int scale, Action<ushort, ushort> updateFeedback) {
+      var valueScaled = json[key].Value<int>();
+      var value = valueScaled.ConvertTo16Bit(scale);
+      updateFeedback(value, (ushort)valueScaled);
+    }
+
+    private ushort BoolFromJson(string key) {
+      return (ushort)(json[key].Value<bool>() ? 1 : 0);
+    }
     #endregion
 
-    #region RequiredFieldsAreValid
-    public override bool RequiredFieldsAreValid() {
-      if (!AudioSelectIsValid()) return false;
-      if (!TuneModeIsValid()) return false;
-      if (!PresetIsValid()) return false;
-      if (!ValueIsValid((ushort?)(long?)Json["bassfreq"], "BassCutoff", new ushort?[] { 80, 100, 125, 150, 175, 200, 225 })) return false;
-      return true;
+    #region Json Post Builders
+    internal void Post(string key, string value) {
+      if (value == null) PostObject(key, "null");
+      PostFormatted(@"{{""{0}"":""{1}""}}", key, value);
     }
 
-    private bool AudioSelectIsValid() {
-      if (AudioSelect == "") AudioSelect = null;
-      else if (AudioSelect != null) {
-        if (AudioSelect != "local" && AudioSelect != "arc") {
-          return FalseWithErrorMessage("SW41PlusV3.AudioSettings: AudioSelect must be 'local' or 'arc'.");
-        }
-      }
-      return true;
+    internal void Post(string key, ushort value) {
+      PostObject(key, value);
     }
 
-    private bool TuneModeIsValid() {
-      return ValueIsValid(TuneMode, "TuneMode", new[] { "disabled", "presets", "equalizer", "tonecontrol" });
+    internal void Post(string key, double value) {
+      PostObject(key, value);
     }
 
-    private bool PresetIsValid() {
-      return ValueIsValid(Preset, "Preset", new[] { "flat", "rock", "classical", "dance", "acoustic" });
+    internal void PostString(string key, bool value) {
+      PostObject(key, value.ToString().ToLower());
     }
+
+    private void PostObject(string key, object value) {
+      PostFormatted(@"{{""{0}"":{1}}}", key, value);
+    }
+
+    #endregion
+
+    #region Feedback routines
+    private void ShowFeedback(ushort value, SetUshortOutputDelegate localDelegate) {
+      localDelegate(value);
+    }
+
+    private void ShowFeedback(bool value, SetUshortOutputDelegate localDelegate) {
+      ShowFeedback(value.ToUshort(), localDelegate);
+    }
+    #endregion
+
+    #region SPlus Feedback Delegates
+    public void AddEmptyDelegatesToSplusOutputs() {
+      SetAudioSelectLocalF = delegate { };
+      SetAudioSelectArcF = delegate { };
+      SetMuteF = delegate { };
+      SetVolumeF = delegate { };
+      SetTuneModeDisabledF = delegate { };
+      SetTuneModePresetsF = delegate { };
+      SetTuneModeEqualizerF = delegate { };
+      SetTuneModeToneControlF = delegate { };
+      SetPresetFlatF = delegate { };
+      SetPresetRockF = delegate { };
+      SetPresetClassicalF = delegate { };
+      SetPresetDanceF = delegate { };
+      SetPresetAcousticF = delegate { };
+      SetSurroundF = delegate { };
+      SetSurroundLevelF = delegate { };
+      SetBassEnhancementF = delegate { };
+      SetBassLevelF = delegate { };
+      SetBassCutFreq80F = delegate { };
+      SetBassCutFreq100F = delegate { };
+      SetBassCutFreq125F = delegate { };
+      SetBassCutFreq150F = delegate { };
+      SetBassCutFreq175F = delegate { };
+      SetBassCutFreq200F = delegate { };
+      SetBassCutFreq225F = delegate { };
+      SetHighPassF = delegate { };
+      SetMuteF = delegate { };
+      SetVolumeF = delegate { };
+    }
+    public SetUshortOutputDelegate SetAudioSelectLocalF { get; set; }
+    public SetUshortOutputDelegate SetAudioSelectArcF { get; set; }
+    public SetUshortOutputDelegate SetTuneModeDisabledF { get; set; }
+    public SetUshortOutputDelegate SetTuneModePresetsF { get; set; }
+    public SetUshortOutputDelegate SetTuneModeEqualizerF { get; set; }
+    public SetUshortOutputDelegate SetTuneModeToneControlF { get; set; }
+    public SetUshortOutputDelegate SetPresetFlatF { get; set; }
+    public SetUshortOutputDelegate SetPresetRockF { get; set; }
+    public SetUshortOutputDelegate SetPresetClassicalF { get; set; }
+    public SetUshortOutputDelegate SetPresetDanceF { get; set; }
+    public SetUshortOutputDelegate SetPresetAcousticF { get; set; }
+    public SetUshortOutputDelegate SetSurroundF { get; set; }
+    public SetUshortOutputDelegate SetSurroundLevelF { get; set; }
+    public SetUshortOutputDelegate SetBassEnhancementF { get; set; }
+    public SetUshortOutputDelegate SetBassLevelF { get; set; }
+    public SetUshortOutputDelegate SetBassCutFreq80F { get; set; }
+    public SetUshortOutputDelegate SetBassCutFreq100F { get; set; }
+    public SetUshortOutputDelegate SetBassCutFreq125F { get; set; }
+    public SetUshortOutputDelegate SetBassCutFreq150F { get; set; }
+    public SetUshortOutputDelegate SetBassCutFreq175F { get; set; }
+    public SetUshortOutputDelegate SetBassCutFreq200F { get; set; }
+    public SetUshortOutputDelegate SetBassCutFreq225F { get; set; }
+    public SetUshortOutputDelegate SetHighPassF { get; set; }
+    public SetUshortOutputDelegate SetMuteF { get; set; }
+    public SetUshortOutputDelegate SetVolumeF { get; set; }
     #endregion
   }
 }

@@ -1,0 +1,54 @@
+[BEGIN]
+  ObjTp=FSgntr
+  Sgntr=ArchiveManifest
+  RelVrs=4.11.06
+  IsProgram=1
+  TopLevelProgram=SW-41Plus MKIII Demo.smw
+[END]
+[BEGIN]
+  ObjTp=ArchiveItem
+  File=SW-41Plus MKIII Demo.smw
+  Scope=1
+[END]
+[BEGIN]
+  ObjTp=ArchiveItem
+  File=SW-41Plus MKIII Demo.sig
+  Scope=1
+[END]
+[BEGIN]
+  ObjTp=ArchiveItem
+  File=SW-41Plus MKIII Demo.lpz
+  Scope=1
+[END]
+[BEGIN]
+  ObjTp=ArchiveItem
+  File=SW-41Plus MKIII Demo.smft
+  Scope=1
+[END]
+[BEGIN]
+  ObjTp=ArchiveItem
+  File=SW-41Plus MKIII Demo.lpz.hash
+  Scope=1
+[END]
+[BEGIN]
+  ObjTp=ArchiveItem
+  File=Zigen SW-41Plus III 3.0.0.umc
+  Scope=1
+[END]
+[BEGIN]
+  ObjTp=ArchiveItem
+  File=Zigen SW-41Plus MKIII 3.0.0.ush
+  Scope=1
+[END]
+[BEGIN]
+  ObjTp=ArchiveItem
+  File=AET.Zigen.Sw41PlusV3.clz
+  Scope=1
+  Module=Zigen SW-41Plus MKIII 3.0.0
+[END]
+[BEGIN]
+  ObjTp=ArchiveItem
+  File=Zigen SW-41Plus III Help.pdf
+  Scope=1
+  Module=Zigen SW-41Plus MKIII 3.0.0.ush
+[END]

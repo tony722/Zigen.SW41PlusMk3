@@ -8,6 +8,12 @@ using AET.Unity.SimplSharp.HttpClient;
 
 namespace AET.Zigen.SW41PlusV3.Tests {
   static class Test {
-    public static TestHttpClient HttpClient { get;  } = new TestHttpClient();
+    public static Sw41Plus Sw41 {
+      get {
+        var sw41 = new Sw41Plus(new TestHttpClient()) {HostName = "http://testhost"};
+        sw41.Initialize();
+        return sw41;
+      }
+    }
   }
 }
