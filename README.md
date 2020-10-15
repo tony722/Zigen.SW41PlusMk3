@@ -1,20 +1,25 @@
+![Zigen Logo](https://github.com/tony722/Zigen.SW41PlusMk3/raw/master/Documentation/Zigen_Logo_Black_small.png)
+***
 # Zigen SW-41Plus MKIII Crestron Module
-## Zigen Corp
 ### Zigen.SW41PlusMk3
-Crestron driver for Zigen SW-41Plus MKIII Video Switcher. _(It is not compatible with previous hardware versions of the SW-41Plus)_
+Crestron driver for Zigen SW-41Plus MKIII Video Switcher.<br>
+_(It is not compatible with previous hardware versions of the SW-41Plus)_
 
 This module is written in SIMPL# with SIMPL/SIMPL+ wrapper for use in SIMPL Windows. 
 
-## [Download Current Crestron Module Here v3.0.1](https://github.com/tony722/Zigen.SW41PlusMk3/raw/master/Releases/SW-41Plus%20MKIII%203.0.0.zip)
-*[Previous Release Archive](https://github.com/tony722/Zigen.SW41PlusMk3/tree/master/Releases)*
+## Crestron Modules:
+## [Download Latest Crestron Module Here v3.0.1](https://github.com/tony722/Zigen.SW41PlusMk3/raw/3.0.1/SIMPL/SW-41Plus%20MKIII%20Demo_compiled.zip)
 
-# Support
+### Crestron Module Release Archives:
+* [Version 3.0.1](https://github.com/tony722/Zigen.SW41PlusMk3/raw/3.0.1/SIMPL/SW-41Plus%20MKIII%20Demo_compiled.zip)
+* [Version 3.0.0](https://github.com/tony722/Zigen.SW41PlusMk3/raw/3.0.0/SIMPL/SW-41Plus%20MKIII%20Demo_compiled.zip)
+## Support
 Support inquiries should be directed to [Zigen Corp](https://zingencorp.com): 818-654-5252. 
 
 Module by Tony Evert. 
 In addition to the hardware support provided by the manufacturer, I'm happy to offer paid support, custom modifications, and Crestron programming to assist you in any way needed. Contact me via http://iconsultants.net
 
-# Source
+## Source
 Full source is available here on GitHub to allow you to make any desired modifications. _If you feel your modification would be of general interest, please clone this repository and issue a pull request. Thanks!_
 
 Referenced libraries:
