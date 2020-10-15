@@ -2,7 +2,7 @@
 using AET.Unity.SimplSharp;
 using Newtonsoft.Json.Linq;
 
-namespace AET.Zigen.SW41PlusV3.Api {
+namespace AET.Zigen.SW41PlusV3 {
   public class EqSetting {
     private short currentValue;
     private double currentValueScaled;
@@ -12,12 +12,12 @@ namespace AET.Zigen.SW41PlusV3.Api {
       TextFeedbackDelegate = delegate { };
     }
 
-    public EqSetting(AudioSettings audioSettings, string jsonName) : this() {
-      AudioSettings = audioSettings;
+    public EqSetting(AudioSettingsApi audioSettingsApi, string jsonName) : this() {
+      AudioSettings = audioSettingsApi;
       JsonName = jsonName;
     }
 
-    public AudioSettings AudioSettings { get; set; }
+    public AudioSettingsApi AudioSettings { get; set; }
     public string JsonName { get; set; }
     
     public SetShortOutputDelegate FeedbackDelegate { get; set; }

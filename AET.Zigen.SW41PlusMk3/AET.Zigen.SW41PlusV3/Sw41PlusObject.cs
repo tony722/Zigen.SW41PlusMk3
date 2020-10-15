@@ -1,7 +1,4 @@
-﻿using AET.Unity.RestClient;
-using AET.Unity.SimplSharp;
-
-namespace AET.Zigen.SW41PlusV3.Api {
+﻿namespace AET.Zigen.SW41PlusV3 {
   public abstract class Sw41PlusObject  {
     protected Sw41PlusObject (string setUrl, string getUrl) {
       SetUrl = setUrl;

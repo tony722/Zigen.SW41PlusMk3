@@ -51,10 +51,10 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\ActiveSource.cs" />
-    <Compile Include="Api\AudioSettings.cs" />
-    <Compile Include="Api\EqSetting.cs" />
-    <Compile Include="Api\Sw41PlusObject.cs" />
+    <Compile Include="ActiveSourceApi.cs" />
+    <Compile Include="AudioSettingsApi.cs" />
+    <Compile Include="EqSetting.cs" />
+    <Compile Include="Sw41PlusObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sw41Plus.cs" />
   </ItemGroup>

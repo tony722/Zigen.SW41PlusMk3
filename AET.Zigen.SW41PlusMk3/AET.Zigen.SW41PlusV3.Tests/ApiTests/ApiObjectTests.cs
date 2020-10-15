@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using AET.Unity.RestClient;
 using AET.Unity.SimplSharp.HttpClient;
-using AET.Zigen.SW41PlusV3.Api;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -15,7 +14,7 @@ namespace AET.Zigen.SW41PlusV3.Tests {
     [TestInitialize]
     public void TestInit() {
       sw41 = Test.Sw41;
-      api = sw41.AudioSettings;
+      api = sw41.AudioSettingsApi;
     }
 
     [TestMethod]

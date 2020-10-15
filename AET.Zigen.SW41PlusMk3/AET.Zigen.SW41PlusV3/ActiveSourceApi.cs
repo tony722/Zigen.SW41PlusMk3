@@ -1,16 +1,14 @@
-﻿using System.Diagnostics;
-using AET.Unity.RestClient;
-using AET.Unity.SimplSharp;
+﻿using AET.Unity.RestClient;
 using Newtonsoft.Json.Linq;
 
-namespace AET.Zigen.SW41PlusV3.Api {
-  public class ActiveSource : Sw41PlusObject {
+namespace AET.Zigen.SW41PlusV3 {
+  public class ActiveSourceApi : Sw41PlusObject {
     private ushort source;
 
-    public ActiveSource(Sw41Plus sw41) : this() {
+    public ActiveSourceApi(Sw41Plus sw41) : this() {
       Sw41Plus = sw41;
     }
-    public ActiveSource() : base("/SetActiveSource", "/GetActiveSource") { }
+    public ActiveSourceApi() : base("/SetActiveSource", "/GetActiveSource") { }
 
     public ushort Source {
       get { return source; }

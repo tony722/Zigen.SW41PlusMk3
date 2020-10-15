@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using AET.Zigen.SW41PlusV3.Api;
 using AET.Unity.RestClient;
 using AET.Unity.SimplSharp;
 using AET.Unity.SimplSharp.HttpClient;
@@ -15,9 +14,9 @@ namespace AET.Zigen.SW41PlusV3 {
     }
 
     public void Initialize() {
-      AudioSettings = new AudioSettings(this);
+      AudioSettings = new AudioSettingsApi(this);
       AudioSettings.Initialize();
-      ActiveSource = new ActiveSource(this);
+      ActiveSource = new ActiveSourceApi(this);
     }
 
     public ushort Debug {
@@ -25,8 +24,8 @@ namespace AET.Zigen.SW41PlusV3 {
     }
 
 
-    public AudioSettings AudioSettings { get; set; }
-    public ActiveSource ActiveSource { get; set; }
+    public AudioSettingsApi AudioSettings { get; set; }
+    public ActiveSourceApi ActiveSource { get; set; }
 
     public void Poll() {
       ActiveSource.Poll();

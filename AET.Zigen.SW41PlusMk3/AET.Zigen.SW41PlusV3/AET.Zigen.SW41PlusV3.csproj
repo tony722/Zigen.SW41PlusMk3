@@ -67,11 +67,12 @@
     <Compile Include="..\..\..\..\..\..\Library\AET\SIMPL#\AET.Unity.SimplSharp\AET.Unity.SimplSharp\Delegates.cs">
       <Link>Delegates.cs</Link>
     </Compile>
-    <Compile Include="Api\ActiveSource.cs" />
-    <Compile Include="Api\AudioSettings.cs" />
-    <Compile Include="Api\Sw41PlusApiObject.cs" />
+    <Compile Include="ActiveSourceApi.cs" />
+    <Compile Include="AudioSettingsApi.cs" />
+    <Compile Include="EqSetting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SW41Plus.cs" />
+    <Compile Include="Sw41PlusObject.cs" />
     <None Include="Properties\ControlSystem.cfg" />
   </ItemGroup>
   <ItemGroup>

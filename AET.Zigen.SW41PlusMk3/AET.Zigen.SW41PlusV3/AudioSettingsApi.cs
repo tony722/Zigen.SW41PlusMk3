@@ -3,14 +3,14 @@ using AET.Unity.RestClient;
 using AET.Unity.SimplSharp;
 using Newtonsoft.Json.Linq;
 
-namespace AET.Zigen.SW41PlusV3.Api {
-  public class AudioSettings : Sw41PlusObject {
+namespace AET.Zigen.SW41PlusV3 {
+  public class AudioSettingsApi : Sw41PlusObject {
     private JObject json;
-    public AudioSettings(Sw41Plus sw41) : this() {
+    public AudioSettingsApi(Sw41Plus sw41) : this() {
       Sw41Plus = sw41;
     }
 
-    public AudioSettings() : base("/SetAudioSettings","/GetAudioSettings") { }
+    public AudioSettingsApi() : base("/SetAudioSettings","/GetAudioSettings") { }
 
     internal void Initialize() {
       AddEmptyDelegatesToSplusOutputs();

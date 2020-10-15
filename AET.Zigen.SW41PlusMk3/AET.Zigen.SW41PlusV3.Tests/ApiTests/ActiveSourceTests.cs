@@ -1,5 +1,4 @@
 ﻿using AET.Unity.SimplSharp.HttpClient;
-using AET.Zigen.SW41PlusV3.Api;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,7 +12,7 @@ namespace AET.Zigen.SW41PlusV3.Tests.CommandObjectTests {
     [TestInitialize]
     public void TestInit() {
       sw41 = Test.Sw41;
-      api = sw41.ActiveSource;
+      api = sw41.ActiveSourceApi;
     }
 
 

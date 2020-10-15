@@ -1,7 +1,6 @@
 ﻿using System.Configuration;
 using AET.Unity.SimplSharp;
 using AET.Unity.SimplSharp.HttpClient;
-using AET.Zigen.SW41PlusV3.Api;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -18,7 +17,7 @@ namespace AET.Zigen.SW41PlusV3.Tests.CommandObjectTests {
       ErrorMessage.Clear();
       TestHttpClient.Clear();
       sw41 = Test.Sw41;
-      api = sw41.AudioSettings;
+      api = sw41.AudioSettingsApi;
     }
 
     #region Serialization Tests
@@ -116,7 +115,7 @@ namespace AET.Zigen.SW41PlusV3.Tests.CommandObjectTests {
       var responseString =
         @"{""status"":""success"",""audioInfo"":{""audiosel"":""local"",""mute"":true,""volume"":50,""tune mode"":""presets"",""presets"":""flat"",""band0"":5,""band1"":6,""band2"":7,""band3"":8,""band4"":9,""basstone"":10,""treble"":11,""surround"":true,""surrlevel"":1,""basslevel"":31,""bass"":true,""bassfreq"":100,""highpass"":true}}";
       TestHttpClient.ResponseContents = responseString;
-      sw41.AudioSettings.Poll();
+      sw41.AudioSettingsApi.Poll();
       using (new AssertionScope()) {
         ErrorMessage.LastErrorMessage.Should().Be("");
         api.AudioSelect.Should().Be("local");
