@@ -5,7 +5,8 @@ Crestron driver for Zigen SW-41Plus MKIII Video Switcher. _(It is not compatible
 
 This module is written in SIMPL# with SIMPL/SIMPL+ wrapper for use in SIMPL Windows. 
 
-## [Download Crestron Module Here](https://github.com/tony722/Zigen.SW41PlusMk3/raw/master/Releases/SW-41Plus%20MKIII%203.0.0.zip)
+## [Download Current Crestron Module Here v3.0.1](https://github.com/tony722/Zigen.SW41PlusMk3/raw/master/Releases/SW-41Plus%20MKIII%203.0.0.zip)
+*[Previous Release Archive](https://github.com/tony722/Zigen.SW41PlusMk3/tree/master/Releases)*
 
 # Support
 Support inquiries should be directed to [Zigen Corp](https://zingencorp.com): 818-654-5252. 
