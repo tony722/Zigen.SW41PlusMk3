@@ -8,10 +8,11 @@ _(It is not compatible with previous hardware versions of the SW-41Plus)_
 This module is written in SIMPL# with SIMPL/SIMPL+ wrapper for use in SIMPL Windows. 
 
 ## Crestron Modules:
-## [Download Latest Crestron Module Here v3.0.1](https://github.com/tony722/Zigen.SW41PlusMk3/raw/3.0.1/SIMPL/SW-41Plus%20MKIII%20Demo_compiled.zip)
+## [Download Latest Crestron Module Here v3.0.1a](https://github.com/tony722/Zigen.SW41PlusMk3/raw/3.0.1a/SIMPL/SW-41Plus%20MKIII%20Demo_compiled.zip)
 
 ### Crestron Module Release Archives:
-* [Version 3.0.1](https://github.com/tony722/Zigen.SW41PlusMk3/raw/3.0.1/SIMPL/SW-41Plus%20MKIII%20Demo_compiled.zip)
+* [Version 3.0.1a Recompile for Crestron Db > v200:](https://github.com/tony722/Zigen.SW41PlusMk3/raw/3.0.1a/SIMPL/SW-41Plus%20MKIII%20Demo_compiled.zip)
+* [Version 3.0.1 For Crestron Db < v200:](https://github.com/tony722/Zigen.SW41PlusMk3/raw/3.0.1/SIMPL/SW-41Plus%20MKIII%20Demo_compiled.zip)
 * [Version 3.0.0](https://github.com/tony722/Zigen.SW41PlusMk3/raw/3.0.0/SIMPL/SW-41Plus%20MKIII%20Demo_compiled.zip)
 ## Support
 Support inquiries should be directed to [Zigen Corp](https://zingencorp.com): 818-654-5252. 
