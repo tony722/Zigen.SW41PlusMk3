@@ -26,7 +26,6 @@ Contact me via http://iconsultants.net
 /*******************************************************************************************
   Include Libraries
 *******************************************************************************************/
-#INCLUDEPATH "Z:\\Projects\\AET\\Zigen\\SW-41Plus MKIII\\AET.Zigen.SW41PlusMk3\\AET.Zigen.SW41PlusV3\\bin\\Debug"
 #USER_SIMPLSHARP_LIBRARY "AET.Zigen.Sw41PlusV3"
 
 /*******************************************************************************************
